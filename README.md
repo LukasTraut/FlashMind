@@ -1,4 +1,8 @@
-# command-mode-quickstart
+# ConsoleApp
+
+This ConsoleApp can only be closed with the command "exit", written in lowercase.
+
+## command-mode-quickstart
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
