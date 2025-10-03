@@ -3,27 +3,32 @@ import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.*;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 @QuarkusMain
 public class ConsoleApp implements QuarkusApplication {
 
+    static int nächsteID = 1;
+
     public class Karte{
+        int ID;
         String frage;
         String antwort;
-        String erstellungsdatum;
+        LocalDate erstellungsdatum;
 
-
-        public Karte(String frage, String antwort, String erstellungsdatum) {
+        public Karte(String frage, String antwort, String datumString) {
+            this.ID = nächsteID++;
             this.frage = frage;
             this.antwort = antwort;
-            this.erstellungsdatum = erstellungsdatum;
+            this.erstellungsdatum = LocalDate.parse(datumString);
         }
+
+
     }
 
     @Override
@@ -32,8 +37,9 @@ public class ConsoleApp implements QuarkusApplication {
 
 
         List<Karte> karten = new ArrayList<>();
-        karten.add(new Karte("Wann wurde Frankfurt gegründet?", "1899", "4.9.25"));
-        karten.add(new Karte("Wie heisst die schönste Stadt auf der Welt?", "Frankfurt", "5.9.25"));
+        karten.add(new Karte("Wann wurde Frankfurt gegründet?", "1899", "2025-09-04"));
+        karten.add(new Karte("Wie heisst die schönste Stadt auf der Welt?", "Frankfurt", "2025-09-05"));
+        karten.add(new Karte("UF", "97", "2025-04-05"));
 
          int i= 0;
 
@@ -63,7 +69,7 @@ public class ConsoleApp implements QuarkusApplication {
             if ("show all".equals(input)){
 
                 System.out.println("Deine vorhandenen Karten...");
-
+                karten.sort(Comparator.comparing(karte -> karte.erstellungsdatum));
 
                 for (int ks = 0; ks < karten.size(); ks++) {
                     Karte aktuelleKarte = karten.get(ks);
