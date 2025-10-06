@@ -74,7 +74,7 @@ public class ConsoleApp implements QuarkusApplication {
                 for (int ks = 0; ks < karten.size(); ks++) {
                     Karte aktuelleKarte = karten.get(ks);
                     if (!aktuelleKarte.frage.equals(" ")) {
-                        System.out.println(aktuelleKarte.frage + " " + aktuelleKarte.antwort + " " + aktuelleKarte.erstellungsdatum);
+                        System.out.println(aktuelleKarte.frage + " " + aktuelleKarte.erstellungsdatum);
                     }
                 }
             }
