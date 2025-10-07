@@ -43,7 +43,7 @@ public class ConsoleApp implements QuarkusApplication {
 
 
         while (true) {
-            System.out.println("show all = Alle anzeigen/ exit = Programm schliessen");
+            System.out.println("open = Öffnen einer Lernkarte / show all = Alle anzeigen / exit = Programm schliessen");
 
             String input;
 
@@ -51,7 +51,7 @@ public class ConsoleApp implements QuarkusApplication {
             System.out.print("> ");
             input = scanner.nextLine();
 
-            if ("exit".equals(input)) {
+            if ("exit".equals(input) || "Exit".equals(input)) {
 
                 System.out.println("Programm wird beendet...");
                 scanner.close();
@@ -60,7 +60,7 @@ public class ConsoleApp implements QuarkusApplication {
 
 
 
-            if ("show all".equals(input)){
+            if ("show all".equals(input) || "Show all".equals(input)){
 
                 System.out.println("Deine vorhandenen Karten...");
                 cards.sort(Comparator.comparing(card -> card.builddate));
@@ -71,7 +71,41 @@ public class ConsoleApp implements QuarkusApplication {
                         System.out.println(aktuelleKarte.ID + " " + aktuelleKarte.question + " " + aktuelleKarte.builddate);
                     }
                 }
-            }}}
+            }
+
+            if ("open".equals(input)) {
+
+                String number;
+                System.out.print("ID: ");
+                number = scanner.nextLine();
+                int IDNumber = Integer.parseInt(number);
+
+                Card aktuelleKarte = cards.get(IDNumber);
+                if (!aktuelleKarte.question.equals(" ")) {
+                    System.out.println(aktuelleKarte.question + " " + aktuelleKarte.answer);
+                }
+
+
+                        System.out.print("Zum schliessen `close` schreiben: ");
+                        String close = scanner.nextLine();
+                            if (close.equals("close")) {
+
+                                System.out.println("Deine vorhandenen Karten...");
+                                cards.sort(Comparator.comparing(card -> card.builddate));
+                             for (int ks = 0; ks < cards.size(); ks++) {
+                                  aktuelleKarte = cards.get(ks);
+                                 if (!aktuelleKarte.question.equals(" ")) {
+                                    System.out.println(aktuelleKarte.ID + " " + aktuelleKarte.question + " " + aktuelleKarte.builddate);
+                        }
+                    }
+                }
+                            else {
+                                System.out.println("Gib close zum schliessen ein(ALLES KLEIN!)");
+                            }
+            }
+
+        }
+    }
 
     public static void main(String[] args) {
         Quarkus.run(ConsoleApp.class, args);
