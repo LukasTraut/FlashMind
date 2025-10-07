@@ -60,7 +60,7 @@ public class ConsoleApp implements QuarkusApplication {
 
 
 
-            if ("show all".equals(input) || "Show all".equals(input)){
+            if ("show all".equals(input) || "Show all".equals(input)|| "Show All".equals(input)){
 
                 System.out.println("Deine vorhandenen Karten...");
                 cards.sort(Comparator.comparing(card -> card.builddate));
