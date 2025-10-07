@@ -103,7 +103,9 @@ public class ConsoleApp implements QuarkusApplication {
                                 System.out.println("Gib close zum schliessen ein(ALLES KLEIN!)");
                             }
             }
-
+            if( !"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input)){
+                System.out.println("Falsche Eingabe, benutz die Befehle!!!");
+            }
         }
     }
 
