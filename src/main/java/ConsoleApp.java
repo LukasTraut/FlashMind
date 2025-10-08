@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
+
+
 @QuarkusMain
 public class ConsoleApp implements QuarkusApplication {
 
@@ -65,10 +67,16 @@ public class ConsoleApp implements QuarkusApplication {
                 System.out.println("Deine vorhandenen Karten...");
                 cards.sort(Comparator.comparing(card -> card.builddate));
 
+                System.out.printf("%-5s | %-45s | %-95s%n", "ID", "Frage", "Erstellt am");
+                System.out.println("-------------------------------------------------------------------");
+
                 for (int ks = 0; ks < cards.size(); ks++) {
                     Card aktuelleKarte = cards.get(ks);
                     if (!aktuelleKarte.question.equals(" ")) {
-                        System.out.println(aktuelleKarte.ID + " " + aktuelleKarte.question + " " + aktuelleKarte.builddate);
+                        System.out.printf("%-5s | %-45s | %-95s%n",
+                                aktuelleKarte.ID,
+                                aktuelleKarte.question,
+                                aktuelleKarte.builddate.toString());
                     }
                 }
             }
@@ -104,6 +112,7 @@ public class ConsoleApp implements QuarkusApplication {
                             }
             }
             if( !"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input)){
+
                 System.out.println("Falsche Eingabe, benutz die Befehle!!!");
             }
         }
