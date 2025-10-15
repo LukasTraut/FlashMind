@@ -73,13 +73,16 @@ public class ConsoleApp implements QuarkusApplication {
                     System.out.print("Antwort: ");
                     Scanner newlernantwort = new Scanner(System.in);
                     String antwort1 = newlernantwort.nextLine();
-
+                    if (antwort1.length() <= 251) {
                         if (!antwort1.equals(aktuelleKarte.answer)) {
                             System.out.println("Die Antwort ist: " + aktuelleKarte.answer);
                         } else {
                             System.out.println("Die Antwort ist richtig");
                         }
-
+                    }
+                    else{
+                        System.out.println("Zu lang, maximal 250 Zeichen!!!!");
+                    }
                 }
                 else if(IDNumber > 2) {
                     System.out.println("Falsche ID");
