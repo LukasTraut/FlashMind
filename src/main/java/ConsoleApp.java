@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 
 
+
 @QuarkusMain
 public class ConsoleApp implements QuarkusApplication {
 
@@ -40,7 +41,7 @@ public class ConsoleApp implements QuarkusApplication {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card("Wann wurde Frankfurt gegründet?", "1899", "2025-09-04"));
         cards.add(new Card("Wie heisst die schönste Stadt auf der Welt?", "Frankfurt", "2025-09-05"));
-        cards.add(new Card("UF", "97", "2025-04-05"));
+        cards.add(new Card("Wann wurde Eintracht Frankfurt Deutscher Meister?", "1959", "2025-04-05"));
 
 
 
@@ -67,13 +68,13 @@ public class ConsoleApp implements QuarkusApplication {
                 System.out.println("Deine vorhandenen Karten...");
                 cards.sort(Comparator.comparing(card -> card.builddate));
 
-                System.out.printf("%-5s | %-45s | %-95s%n", "ID", "Frage", "Erstellt am");
-                System.out.println("-------------------------------------------------------------------");
+                System.out.printf("%-5s | %-50s | %-95s%n", "ID", "Frage", "Erstellt am");
+                System.out.println("------------------------------------------------------------------------");
 
                 for (int ks = 0; ks < cards.size(); ks++) {
                     Card aktuelleKarte = cards.get(ks);
                     if (!aktuelleKarte.question.equals(" ")) {
-                        System.out.printf("%-5s | %-45s | %-95s%n",
+                        System.out.printf("%-5s | %-50s | %-95s%n",
                                 aktuelleKarte.ID,
                                 aktuelleKarte.question,
                                 aktuelleKarte.builddate.toString());
@@ -81,7 +82,7 @@ public class ConsoleApp implements QuarkusApplication {
                 }
             }
 
-            if ("open".equals(input)) {
+            if ("open".equals(input)|| "Open".equals(input)) {
 
                 String number;
                 System.out.print("ID: ");
@@ -90,30 +91,39 @@ public class ConsoleApp implements QuarkusApplication {
 
                 Card aktuelleKarte = cards.get(IDNumber);
                 if (!aktuelleKarte.question.equals(" ")) {
+                    System.out.printf("%-25s | %-95s%n", "Frage", "Antwort");
+                    System.out.println("------------------------------------");
                     System.out.println(aktuelleKarte.question + " " + aktuelleKarte.answer);
                 }
 
 
                         System.out.print("Zum schliessen `close` schreiben: ");
                         String close = scanner.nextLine();
-                            if (close.equals("close")) {
+                            if (close.equals("close")|| close.equals("Close")) {
 
                                 System.out.println("Deine vorhandenen Karten...");
                                 cards.sort(Comparator.comparing(card -> card.builddate));
-                             for (int ks = 0; ks < cards.size(); ks++) {
-                                  aktuelleKarte = cards.get(ks);
-                                 if (!aktuelleKarte.question.equals(" ")) {
-                                    System.out.println(aktuelleKarte.ID + " " + aktuelleKarte.question + " " + aktuelleKarte.builddate);
-                        }
-                    }
+
+                                System.out.printf("%-5s | %-50s | %-95s%n", "ID", "Frage", "Erstellt am");
+                                System.out.println("------------------------------------------------------------------------");
+
+                                for (int ks = 0; ks < cards.size(); ks++) {
+                                     aktuelleKarte = cards.get(ks);
+                                    if (!aktuelleKarte.question.equals(" ")) {
+                                        System.out.printf("%-5s | %-50s | %-95s%n",
+                                                aktuelleKarte.ID,
+                                                aktuelleKarte.question,
+                                                aktuelleKarte.builddate.toString());
+                                    }
+                                }
                 }
                             else {
                                 System.out.println("Gib close zum schliessen ein(ALLES KLEIN!)");
                             }
             }
-            if( !"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input)){
+            if( !"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input)) {
 
-                System.out.println("Falsche Eingabe, benutz die Befehle!!!");
+                System.out.println("Befehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.");
             }
         }
     }
