@@ -90,7 +90,8 @@ public class ConsoleApp implements QuarkusApplication {
                 number = scanner.nextLine();
 
                 int idNumber = Integer.parseInt(number);
-                if (idNumber >= cards.size()) {
+                int maxid = cards.size()-1;
+                if(idNumber > maxid) {
                     System.out.printf("Es sind nur %d Karten vorhanden.%n", cards.size());
                     continue;
                 }
