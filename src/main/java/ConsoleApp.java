@@ -15,16 +15,16 @@ import java.time.format.DateTimeFormatter;
 @QuarkusMain
 public class ConsoleApp implements QuarkusApplication {
 
-    static int nextID = 0;
+    static int nextid = 0;
 
     public class Card{
-        int ID;
+        int id;
         String question;
         String answer;
         LocalDate builddate;
 
         public Card(String question, String answer, String dateString) {
-            this.ID = nextID++;
+            this.id = nextid++;
             this.question = question;
             this.answer = answer;
             this.builddate = LocalDate.parse(dateString);
@@ -65,9 +65,23 @@ public class ConsoleApp implements QuarkusApplication {
                 String numberlearn;
                 System.out.print("ID: ");
                 numberlearn = scanner.nextLine();
-                int IDNumber = Integer.parseInt(numberlearn);
+                int idNumber = Integer.parseInt(numberlearn);
 
-                Card aktuelleKarte = cards.get(IDNumber);
+
+                Card aktuelleKarte = null;
+                for (Card c : cards) {
+                    if (c.id == idNumber) {
+                        aktuelleKarte = c;
+                        break;
+                    }
+                }
+                int maxid = cards.size()-1;
+                 if(idNumber > maxid) {
+                    System.out.printf("Es sind nur %d Karten vorhanden.%n", cards.size());
+                    continue;
+
+                }
+
                 if (!aktuelleKarte.question.equals(" ")) {
                     System.out.println("Frage: " + aktuelleKarte.question);
                     System.out.print("Antwort: ");
@@ -84,9 +98,6 @@ public class ConsoleApp implements QuarkusApplication {
                         System.out.println("Zu lang, maximal 250 Zeichen!!!!");
                     }
                 }
-                else if(IDNumber > 2) {
-                    System.out.println("Falsche ID");
-                }
 
             }
 
@@ -102,7 +113,7 @@ public class ConsoleApp implements QuarkusApplication {
                     Card aktuelleKarte = cards.get(ks);
                     if (!aktuelleKarte.question.equals(" ")) {
                         System.out.printf("%-5s | %-50s | %-95s%n",
-                                aktuelleKarte.ID,
+                                aktuelleKarte.id,
                                 aktuelleKarte.question,
                                 aktuelleKarte.builddate.toString());
                     }
