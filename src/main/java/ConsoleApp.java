@@ -46,7 +46,7 @@ public class ConsoleApp implements QuarkusApplication {
 
 
         while (true) {
-            System.out.println("learn = Lernkarte lernen / open = Öffnen einer Lernkarte / show all = Alle anzeigen / exit = Programm schliessen");
+            System.out.println("learn = Lernkarte lernen / show all = Alle anzeigen / exit = Programm schliessen");
 
             String input;
 
@@ -68,10 +68,10 @@ public class ConsoleApp implements QuarkusApplication {
                 int idNumber = Integer.parseInt(numberlearn);
 
 
-                Card aktuelleKarte = null;
+                Card currentCard = null;
                 for (Card c : cards) {
                     if (c.id == idNumber) {
-                        aktuelleKarte = c;
+                        currentCard = c;
                         break;
                     }
                 }
@@ -82,14 +82,14 @@ public class ConsoleApp implements QuarkusApplication {
 
                 }
 
-                if (!aktuelleKarte.question.equals(" ")) {
-                    System.out.println("Frage: " + aktuelleKarte.question);
+                if (!currentCard.question.equals(" ")) {
+                    System.out.println("Frage: " + currentCard.question);
                     System.out.print("Antwort: ");
                     Scanner newlernantwort = new Scanner(System.in);
                     String antwort1 = newlernantwort.nextLine();
                     if (antwort1.length() <= 251) {
-                        if (!antwort1.equals(aktuelleKarte.answer)) {
-                            System.out.println("Die Antwort ist: " + aktuelleKarte.answer);
+                        if (!antwort1.equals(currentCard.answer)) {
+                            System.out.println("Die Antwort ist: " + currentCard.answer);
                         } else {
                             System.out.println("Die Antwort ist richtig");
                         }
@@ -110,12 +110,12 @@ public class ConsoleApp implements QuarkusApplication {
                 System.out.println("------------------------------------------------------------------------");
 
                 for (int ks = 0; ks < cards.size(); ks++) {
-                    Card aktuelleKarte = cards.get(ks);
-                    if (!aktuelleKarte.question.equals(" ")) {
+                    Card currentCard = cards.get(ks);
+                    if (!currentCard.question.equals(" ")) {
                         System.out.printf("%-5s | %-50s | %-95s%n",
-                                aktuelleKarte.id,
-                                aktuelleKarte.question,
-                                aktuelleKarte.builddate.toString());
+                                currentCard.id,
+                                currentCard.question,
+                                currentCard.builddate.toString());
                     }
                 }
             }
