@@ -89,7 +89,7 @@ public class ConsoleApp implements QuarkusApplication {
                     String antwort1 = newlernantwort.nextLine();
                     if (antwort1.length() <= 251) {
                         if (!antwort1.equals(currentCard.answer)) {
-                            System.out.println("\u001B[31mDie Antwort ist: " + currentCard.answer + "\u001B[0m");
+                            System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer );
                         } else {
                             System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
                         }
