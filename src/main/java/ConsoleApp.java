@@ -92,7 +92,7 @@ public class ConsoleApp implements QuarkusApplication {
                 int idNumber = Integer.parseInt(number);
                 int maxid = cards.size()-1;
                 if(idNumber > maxid) {
-                    System.out.printf("Es sind nur %d Karten vorhanden.%n", cards.size());
+                    System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
                     continue;
                 }
 
@@ -132,12 +132,12 @@ public class ConsoleApp implements QuarkusApplication {
                                 }
                 }
                             else {
-                                System.out.println("Gib close zum schliessen ein(ALLES KLEIN!)");
+                                System.out.println("\u001B[31mGib close zum schliessen ein(ALLES KLEIN!)\u001B[0m");
                             }
             }
             if( !"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input)) {
 
-                System.out.println("Befehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.");
+                System.out.println("\u001B[31mBefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
             }
         }
     }
