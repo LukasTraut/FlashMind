@@ -43,7 +43,7 @@ public class ConsoleApp implements QuarkusApplication {
         int comparisonid = 0;
 
         while (true) {
-            System.out.println("random = Zufälliges lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
+            System.out.println(" start random = Zufälliges lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
 
             String input;
 
@@ -73,46 +73,80 @@ public class ConsoleApp implements QuarkusApplication {
             }
 
 
-            if ("random".equals(input)) {
+            if ("Start Random".equals(input) || "Start random".equals(input) || "start random".equals(input)) {
 
+                boolean weiter = true;
+                int randomVersuche = 1;
 
-                Random rand = new Random();
-                int randomIdNumber = rand.nextInt(cards.size());
+                do {
+                    if (randomVersuche <= 1){
+                        Random rand = new Random();
 
-                if (randomIdNumber == comparisonid) {
-                     rand = new Random();
-                     comparisonid = rand.nextInt(cards.size());
-                }
+                        int randomIndex;
+                        do {
+                            randomIndex = rand.nextInt(cards.size());
+                        } while (randomIndex == comparisonid);
 
-else{
-                Card currentCard = null;
-                for (Card c : cards) {
-                    if (c.id == randomIdNumber) {
-                        currentCard = c;
-                    }
-                }
+                        Card currentCard = cards.get(randomIndex);
+                        comparisonid = randomIndex;
 
+                        if (!currentCard.question.equals(" ")) {
+                            System.out.println("Frage: " + currentCard.question);
+                            System.out.print("Antwort: ");
+                            Scanner newlernantwort = new Scanner(System.in);
+                            String antwort1 = newlernantwort.nextLine();
+                            if (antwort1.length() <= 251) {
+                                if (!antwort1.equals(currentCard.answer)) {
+                                    System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
+                                } else {
+                                    System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
+                                }
+                            } else {
+                                System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
+                            }}
+                        randomVersuche++;}
+                    else {
 
-                if (!currentCard.question.equals(" ")) {
-                    System.out.println("Frage: " + currentCard.question);
-                    System.out.print("Antwort: ");
-                    Scanner newlernantwort = new Scanner(System.in);
-                    String antwort1 = newlernantwort.nextLine();
-                    if (antwort1.length() <= 251) {
-                        if (!antwort1.equals(currentCard.answer)) {
-                            System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
-                        } else {
-                            System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
+                    System.out.println("`stop random` zum beenden enter drücken zum fortfahren  ");
+                    String randomweiter;
+                    randomweiter = scanner.nextLine();
+
+                    if (!"Stop Random".equals(randomweiter) || !"Stop random".equals(randomweiter) || !"stop random".equals(randomweiter)) {
+                        Random rand = new Random();
+
+                        int randomIndex;
+                        do {
+                            randomIndex = rand.nextInt(cards.size());
+                        } while (randomIndex == comparisonid);
+
+                        Card currentCard = cards.get(randomIndex);
+                        comparisonid = randomIndex;
+
+                        if (!currentCard.question.equals(" ")) {
+                            System.out.println("Frage: " + currentCard.question);
+                            System.out.print("Antwort: ");
+                            Scanner newlernantwort = new Scanner(System.in);
+                            String antwort1 = newlernantwort.nextLine();
+                            if (antwort1.length() <= 251) {
+                                if (!antwort1.equals(currentCard.answer)) {
+                                    System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
+                                } else {
+                                    System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
+                                }
+                            } else {
+                                System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
+                            }
                         }
+                    randomVersuche++;
                     } else {
-                        System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
+                        weiter = false;
                     }
-                }
-                comparisonid = randomIdNumber;
+                }}
+                while (weiter == true);
+
+
             }
         }
-        }
-    
     }
 
     public static void main(String[] args) {
