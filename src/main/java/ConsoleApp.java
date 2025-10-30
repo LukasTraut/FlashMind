@@ -38,7 +38,7 @@ public class ConsoleApp implements QuarkusApplication {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card("Wann wurde Frankfurt gegründet?", "1899", "2025-09-04"));
         cards.add(new Card("Wie heisst die schönste Stadt auf der Welt?", "Frankfurt", "2025-09-05"));
-        cards.add(new Card("UF", "97", "2025-04-05"));
+        cards.add(new Card("Wann wurde Eintracht Frankfurt Deutscher Meister?", "1959", "2025-04-05"));
 
         int comparisonid = 0;
 
