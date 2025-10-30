@@ -43,7 +43,7 @@ public class ConsoleApp implements QuarkusApplication {
         int comparisonid = 0;
 
         while (true) {
-            System.out.println(" start random = Zufälliges lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
+            System.out.println("start random = Zufälliges lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
 
             String input;
 
@@ -111,7 +111,9 @@ public class ConsoleApp implements QuarkusApplication {
                     String randomweiter;
                     randomweiter = scanner.nextLine();
 
-                    if (!"Stop Random".equals(randomweiter) || !"Stop random".equals(randomweiter) || !"stop random".equals(randomweiter)) {
+                    if ("Stop Random".equals(randomweiter) || "Stop random".equals(randomweiter) || "stop random".equals(randomweiter)) {
+                        weiter = false;
+                    } else {
                         Random rand = new Random();
 
                         int randomIndex;
@@ -137,9 +139,7 @@ public class ConsoleApp implements QuarkusApplication {
                                 System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
                             }
                         }
-                    randomVersuche++;
-                    } else {
-                        weiter = false;
+                        randomVersuche++;
                     }
                 }}
                 while (weiter == true);
