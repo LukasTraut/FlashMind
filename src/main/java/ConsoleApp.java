@@ -4,7 +4,7 @@ import io.quarkus.runtime.annotations.QuarkusMain;
 
 import java.time.LocalDate;
 import java.util.*;
-
+import java.util.Random;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -12,16 +12,16 @@ import java.time.format.DateTimeFormatter;
 @QuarkusMain
 public class ConsoleApp implements QuarkusApplication {
 
-    static int nextID = 0;
+    static int nextid = 0;
 
     public class Card{
-        int ID;
+        int id;
         String question;
         String answer;
         LocalDate builddate;
 
         public Card(String question, String answer, String dateString) {
-            this.ID = nextID++;
+            this.id = nextid++;
             this.question = question;
             this.answer = answer;
             this.builddate = LocalDate.parse(dateString);
@@ -40,10 +40,10 @@ public class ConsoleApp implements QuarkusApplication {
         cards.add(new Card("Wie heisst die schönste Stadt auf der Welt?", "Frankfurt", "2025-09-05"));
         cards.add(new Card("UF", "97", "2025-04-05"));
 
-
+        int comparisonid = 0;
 
         while (true) {
-            System.out.println("show all = Alle anzeigen/ exit = Programm schliessen");
+            System.out.println("random = Zufälliges lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
 
             String input;
 
@@ -59,8 +59,7 @@ public class ConsoleApp implements QuarkusApplication {
             }
 
 
-
-            if ("show all".equals(input)){
+            if ("show all".equals(input)) {
 
                 System.out.println("Deine vorhandenen Karten...");
                 cards.sort(Comparator.comparing(card -> card.builddate));
@@ -68,10 +67,53 @@ public class ConsoleApp implements QuarkusApplication {
                 for (int ks = 0; ks < cards.size(); ks++) {
                     Card aktuelleKarte = cards.get(ks);
                     if (!aktuelleKarte.question.equals(" ")) {
-                        System.out.println(aktuelleKarte.ID + " " + aktuelleKarte.question + " " + aktuelleKarte.builddate);
+                        System.out.println(aktuelleKarte.id + " " + aktuelleKarte.question + " " + aktuelleKarte.builddate);
                     }
                 }
-            }}}
+            }
+
+
+            if ("random".equals(input)) {
+
+
+                Random rand = new Random();
+                int randomIdNumber = rand.nextInt(cards.size());
+
+                if (randomIdNumber == comparisonid) {
+                     rand = new Random();
+                     comparisonid = rand.nextInt(cards.size());
+                }
+
+else{
+                Card currentCard = null;
+                for (Card c : cards) {
+                    if (c.id == randomIdNumber) {
+                        currentCard = c;
+                    }
+                }
+
+
+                if (!currentCard.question.equals(" ")) {
+                    System.out.println("Frage: " + currentCard.question);
+                    System.out.print("Antwort: ");
+                    Scanner newlernantwort = new Scanner(System.in);
+                    String antwort1 = newlernantwort.nextLine();
+                    if (antwort1.length() <= 251) {
+                        if (!antwort1.equals(currentCard.answer)) {
+                            System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
+                        } else {
+                            System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
+                        }
+                    } else {
+                        System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
+                    }
+                }
+                comparisonid = randomIdNumber;
+            }
+        }
+        }
+    
+    }
 
     public static void main(String[] args) {
         Quarkus.run(ConsoleApp.class, args);
