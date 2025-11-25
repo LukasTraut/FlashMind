@@ -14,7 +14,7 @@ public class ConsoleApp implements QuarkusApplication {
 
     static int nextId = 0;
 
-    public class Card{
+    public class Card {
         int id;
         String question;
         String answer;
@@ -40,7 +40,7 @@ public class ConsoleApp implements QuarkusApplication {
         cards.add(new Card("Wie heisst die schönste Stadt auf der Welt?", "Frankfurt", "2025-09-05"));
         cards.add(new Card("Wann wurde Eintracht Frankfurt Deutscher Meister?", "1959", "2025-04-05"));
 
-        int lastRandomIndex  = 0;
+        int lastRandomIndex = 0;
 
         while (true) {
             System.out.println("start random = Zufälliges lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
@@ -76,53 +76,19 @@ public class ConsoleApp implements QuarkusApplication {
             if ("Start Random".equals(input) || "Start random".equals(input) || "start random".equals(input)) {
 
                 boolean continuing = true;
-                int randomTries  = 1;
+                int randomTries = 1;
 
                 do {
-                    if (randomTries  <= 1){
+                    if (randomTries <= 1) {
                         Random rand = new Random();
 
                         int randomIndex;
                         do {
                             randomIndex = rand.nextInt(cards.size());
-                        } while (randomIndex == lastRandomIndex );
+                        } while (randomIndex == lastRandomIndex);
 
                         Card currentCard = cards.get(randomIndex);
-                        lastRandomIndex  = randomIndex;
-
-                        if (!currentCard.question.equals(" ")) {
-                            System.out.println("Frage: " + currentCard.question);
-                            System.out.print("Antwort: ");
-                            Scanner newLearnAnswer = new Scanner(System.in);
-                            String answer1 = newLearnAnswer.nextLine();
-                            if (answer1.length() <= 251) {
-                                if (!answer1.equals(currentCard.answer)) {
-                                    System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
-                                } else {
-                                    System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
-                                }
-                            } else {
-                                System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
-                            }}
-                        randomTries++;}
-                    else {
-
-                    System.out.println("`stop random` zum beenden enter drücken zum fortfahren  ");
-                    String randomContinue;
-                        randomContinue = scanner.nextLine();
-
-                    if ("Stop Random".equals(randomContinue) || "Stop random".equals(randomContinue) || "stop random".equals(randomContinue)) {
-                        continuing = false;
-                    } else {
-                        Random rand = new Random();
-
-                        int randomIndex;
-                        do {
-                            randomIndex = rand.nextInt(cards.size());
-                        } while (randomIndex == lastRandomIndex );
-
-                        Card currentCard = cards.get(randomIndex);
-                        lastRandomIndex  = randomIndex;
+                        lastRandomIndex = randomIndex;
 
                         if (!currentCard.question.equals(" ")) {
                             System.out.println("Frage: " + currentCard.question);
@@ -139,9 +105,45 @@ public class ConsoleApp implements QuarkusApplication {
                                 System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
                             }
                         }
-                        randomTries ++;
+                        randomTries++;
+                    } else {
+
+                        System.out.println("`stop random` zum beenden enter drücken zum fortfahren  ");
+                        String randomContinue;
+                        randomContinue = scanner.nextLine();
+
+                        if ("Stop Random".equals(randomContinue) || "Stop random".equals(randomContinue) || "stop random".equals(randomContinue)) {
+                            continuing = false;
+                        } else {
+                            Random rand = new Random();
+
+                            int randomIndex;
+                            do {
+                                randomIndex = rand.nextInt(cards.size());
+                            } while (randomIndex == lastRandomIndex);
+
+                            Card currentCard = cards.get(randomIndex);
+                            lastRandomIndex = randomIndex;
+
+                            if (!currentCard.question.equals(" ")) {
+                                System.out.println("Frage: " + currentCard.question);
+                                System.out.print("Antwort: ");
+                                Scanner newLearnAnswer = new Scanner(System.in);
+                                String answer1 = newLearnAnswer.nextLine();
+                                if (answer1.length() <= 251) {
+                                    if (!answer1.equals(currentCard.answer)) {
+                                        System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
+                                    } else {
+                                        System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
+                                    }
+                                } else {
+                                    System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
+                                }
+                            }
+                            randomTries++;
+                        }
                     }
-                }}
+                }
                 while (continuing == true);
 
 
