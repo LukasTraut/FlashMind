@@ -20,31 +20,30 @@ import java.time.format.DateTimeFormatter;
 @QuarkusMain
 public class ConsoleApp {
 
-    static int nextid = 0;
+    static int nextId = 0;
 
     public class Card {
         public int id;
         public String question;
         public String answer;
-        public LocalDate builddate;
+        public LocalDate buildDate;
         public Integer counter;
         public Integer correctCounter;
         public Integer falseCounter;
-        public LocalDate lastlearn;
+        public LocalDate lastLearn;
 
 
         public Card(String question, String answer, String dateString, Integer counter, Integer correctCounter, Integer falseCounter, String lastDate) {
-            this.id = nextid++;
+            this.id = nextId++;
             this.question = question;
             this.answer = answer;
-            this.builddate = LocalDate.parse(dateString);
+            this.buildDate = LocalDate.parse(dateString);
             this.counter = counter;
             this.correctCounter = correctCounter;
             this.falseCounter = falseCounter;
-            this.lastlearn = LocalDate.parse(lastDate);
+            this.lastLearn = LocalDate.parse(lastDate);
         }
     }
-
 
 
     public static List<Card> loadCardsFromFile(File file) {
@@ -57,7 +56,7 @@ public class ConsoleApp {
             }
 
             String content = json.toString().trim();
-            content = content.substring(1, content.length() -1);
+            content = content.substring(1, content.length() - 1);
             String[] objects = content.split("\\},\\s*\\{");
 
             for (String obj : objects) {
@@ -67,11 +66,11 @@ public class ConsoleApp {
                 int id = 0;
                 String question = "";
                 String answer = "";
-                String builddate = "";
+                String buildDate = "";
                 int counter = 0;
-                int correctcounter = 0;
+                int correctCounter = 0;
                 int falseCounter = 0;
-                String lastlearn = "";
+                String lastLearn = "";
 
                 for (String field : fields) {
                     String[] keyValue = field.split(":");
@@ -81,14 +80,14 @@ public class ConsoleApp {
                     if (key.equals("id")) id = Integer.parseInt(value);
                     if (key.equals("question")) question = value;
                     if (key.equals("answer")) answer = value;
-                    if (key.equals("builddate")) builddate = value;
+                    if (key.equals("builddate")) buildDate = value;
                     if (key.equals("counter")) counter = Integer.parseInt(value);
-                    if (key.equals("correctcounter")) correctcounter = Integer.parseInt(value);
+                    if (key.equals("correctcounter")) correctCounter = Integer.parseInt(value);
                     if (key.equals("falsecounter")) falseCounter = Integer.parseInt(value);
-                    if (key.equals("lastlearn")) lastlearn = value;
+                    if (key.equals("lastlearn")) lastLearn = value;
                 }
 
-                Card card = new ConsoleApp().new Card(question, answer, builddate, counter, correctcounter, falseCounter, lastlearn);
+                Card card = new ConsoleApp().new Card(question, answer, buildDate, counter, correctCounter, falseCounter, lastLearn);
                 card.id = id;
                 cards.add(card);
             }
@@ -100,7 +99,7 @@ public class ConsoleApp {
     }
 
     public static void saveCardsToFile(File file, List<Card> cards) {
-        try (FileWriter writer = new FileWriter(file)){
+        try (FileWriter writer = new FileWriter(file)) {
 
             writer.write("[\n");
 
@@ -112,11 +111,11 @@ public class ConsoleApp {
                 writer.write("\"id\": " + card.id + ",\n");
                 writer.write("\"question\": \"" + card.question + "\",\n");
                 writer.write("\"answer\": \"" + card.answer + "\",\n");
-                writer.write("\"builddate\": \"" + card.builddate + "\",\n");
+                writer.write("\"builddate\": \"" + card.builDdate + "\",\n");
                 writer.write("\"counter\": " + card.counter + ",\n");
                 writer.write("\"correctcounter\": " + card.correctCounter + ",\n");
                 writer.write("\"falsecounter\": " + card.falseCounter + ",\n");
-                writer.write("\"lastlearn\": \"" + card.lastlearn + "\"\n");
+                writer.write("\"lastlearn\": \"" + card.lastLearn + "\"\n");
                 writer.write("}\n");
 
                 if (i < cards.size() - 1) {
@@ -126,8 +125,7 @@ public class ConsoleApp {
             }
             writer.write("]");
             System.out.println("Erfolgreich gespeichert");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Fehler beim Speichern der JSON-Datei: " + e.getMessage());
         }
     }
@@ -159,10 +157,10 @@ public class ConsoleApp {
             }
 
             if ("learn".equals(input) || "Learn".equals(input)) {
-                String numberlearn;
+                String numberLearn;
                 System.out.print("ID: ");
-                numberlearn = scanner.nextLine();
-                int idNumber = Integer.parseInt(numberlearn);
+                numberLearn = scanner.nextLine();
+                int idNumber = Integer.parseInt(numberLearn);
 
 
                 Card currentCard = null;
@@ -172,8 +170,8 @@ public class ConsoleApp {
                         break;
                     }
                 }
-                int maxid = cards.size();
-                if(idNumber > maxid) {
+                int maxId = cards.size();
+                if (idNumber > maxId) {
                     System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
                     continue;
 
@@ -182,64 +180,63 @@ public class ConsoleApp {
                 if (!currentCard.question.equals(" ")) {
                     System.out.println("Frage: " + currentCard.question);
                     System.out.print("Antwort: ");
-                    Scanner newlernantwort = new Scanner(System.in);
-                    String antwort1 = newlernantwort.nextLine();
-                    if (antwort1.length() <= 251) {
-                        if (!antwort1.equals(currentCard.answer)) {
-                            System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer );
+                    Scanner newlearnanswer = new Scanner(System.in);
+                    String answer1 = newlearnanswer.nextLine();
+                    if (answer1.length() <= 251) {
+                        if (!answer1.equals(currentCard.answer)) {
+                            System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
                             currentCard.falseCounter++;
                             currentCard.counter++;
-                            currentCard.lastlearn = LocalDate.now();
+                            currentCard.lastLearn = LocalDate.now();
                             saveCardsToFile(flashCard, cards);
                         } else {
                             System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
                             currentCard.correctCounter++;
                             currentCard.counter++;
-                            currentCard.lastlearn = LocalDate.now();
+                            currentCard.lastLearn = LocalDate.now();
                             saveCardsToFile(flashCard, cards);
                         }
-                    }
-                    else{
+                    } else {
                         System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
                         currentCard.falseCounter++;
                         currentCard.counter++;
-                        currentCard.lastlearn = LocalDate.now();
+                        currentCard.lastLearn = LocalDate.now();
                         saveCardsToFile(flashCard, cards);
                     }
                 }
 
             }
 
-            if ("show all".equals(input) || "Show all".equals(input)|| "Show All".equals(input)){
+            if ("show all".equals(input) || "Show all".equals(input) || "Show All".equals(input)) {
 
-                Scanner  sortby = new Scanner(System.in);
+                Scanner sortby = new Scanner(System.in);
                 System.out.println("Sortieren nach: sort id/ sort builddate/ sort best/ sort worst/ sort latest/ sort refresh");
 
-                    switch (sortby.nextLine()){
-                        case "sort id":
-                            cards.sort(Comparator.comparing(card -> card.id ));
-                            Collections.reverse(cards);
-                            break;
-                        case "sort builddate":
-                            cards.sort(Comparator.comparing(card -> card.builddate));
-                            Collections.reverse(cards);
-                            break;
-                        case "sort best":
-                            cards.sort(Comparator.comparing(card -> card.correctCounter));
-                            break;
-                        case "sort worst":
-                            cards.sort(Comparator.comparing(card -> card.falseCounter));
-                            Collections.reverse(cards);
-                            break;
-                        case "sort latest":
-                            cards.sort(Comparator.comparing(card -> card.lastlearn));
-                            Collections.reverse(cards);
-                            break;
-                        case "sort refresh":
-                            cards.sort(Comparator.comparing(card -> card.lastlearn));
-                            break;
-                        default:
-                            System.out.println("\u001B[31mSortierbefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
+                switch (sortby.nextLine()) {
+                    case "sort id":
+                        cards.sort(Comparator.comparing(card -> card.id));
+                        Collections.reverse(cards);
+                        break;
+                    case "sort builddate":
+                        cards.sort(Comparator.comparing(card -> card.buildDate));
+                        Collections.reverse(cards);
+                        break;
+                    case "sort best":
+                        cards.sort(Comparator.comparing(card -> card.correctCounter));
+                        break;
+                    case "sort worst":
+                        cards.sort(Comparator.comparing(card -> card.falseCounter));
+                        Collections.reverse(cards);
+                        break;
+                    case "sort latest":
+                        cards.sort(Comparator.comparing(card -> card.lastLearn));
+                        Collections.reverse(cards);
+                        break;
+                    case "sort refresh":
+                        cards.sort(Comparator.comparing(card -> card.lastLearn));
+                        break;
+                    default:
+                        System.out.println("\u001B[31mSortierbefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
 
 
                 }
@@ -252,122 +249,26 @@ public class ConsoleApp {
                     Card currentCard = cards.get(ks);
                     if (!currentCard.question.equals(" ")) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
                                 currentCard.id,
                                 currentCard.question,
-                                currentCard.builddate.toString(),
+                                currentCard.buildDate.toString(),
                                 currentCard.counter,
                                 currentCard.correctCounter,
                                 currentCard.falseCounter,
-                                currentCard.lastlearn
+                                currentCard.lastLearn
                         );
 
                     }
                 }
             }
 
-            if( !"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"learn".equals(input) && !"Learn".equals(input)) {
+            if (!"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"learn".equals(input) && !"Learn".equals(input)) {
 
                 System.out.println("\u001B[31mBefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
             }
         }
-    }}
+    }
+}
 
 
