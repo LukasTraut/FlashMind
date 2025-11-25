@@ -85,8 +85,8 @@ public class ConsoleApp implements QuarkusApplication {
                 if ( !currentCard.question.trim().equals("")) {
                     System.out.println("Frage: " + currentCard.question);
                     System.out.print("Antwort: ");
-                    Scanner newlearnanswer = new Scanner(System.in);
-                    String answer1 = newlearnanswer.nextLine();
+                    Scanner newLearnAnswer = new Scanner(System.in);
+                    String answer1 = newLearnAnswer.nextLine();
                     if (answer1.length() <= 251) {
                         if (!answer1.equals(currentCard.answer)) {
                             System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer );
