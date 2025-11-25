@@ -12,19 +12,19 @@ import java.time.format.DateTimeFormatter;
 @QuarkusMain
 public class ConsoleApp implements QuarkusApplication {
 
-    static int nextid = 0;
+    static int nextId = 0;
 
     public class Card{
         int id;
         String question;
         String answer;
-        LocalDate builddate;
+        LocalDate buildDate;
 
         public Card(String question, String answer, String dateString) {
-            this.id = nextid++;
+            this.id = nextId++;
             this.question = question;
             this.answer = answer;
-            this.builddate = LocalDate.parse(dateString);
+            this.buildDate = LocalDate.parse(dateString);
         }
 
 
@@ -40,7 +40,7 @@ public class ConsoleApp implements QuarkusApplication {
         cards.add(new Card("Wie heisst die schönste Stadt auf der Welt?", "Frankfurt", "2025-09-05"));
         cards.add(new Card("Wann wurde Eintracht Frankfurt Deutscher Meister?", "1959", "2025-04-05"));
 
-        int comparisonid = 0;
+        int lastRandomIndex  = 0;
 
         while (true) {
             System.out.println("start random = Zufälliges lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
@@ -62,12 +62,12 @@ public class ConsoleApp implements QuarkusApplication {
             if ("show all".equals(input)) {
 
                 System.out.println("Deine vorhandenen Karten...");
-                cards.sort(Comparator.comparing(card -> card.builddate));
+                cards.sort(Comparator.comparing(card -> card.buildDate));
 
                 for (int ks = 0; ks < cards.size(); ks++) {
-                    Card aktuelleKarte = cards.get(ks);
-                    if (!aktuelleKarte.question.equals(" ")) {
-                        System.out.println(aktuelleKarte.id + " " + aktuelleKarte.question + " " + aktuelleKarte.builddate);
+                    Card currentCard = cards.get(ks);
+                    if (!currentCard.question.equals(" ")) {
+                        System.out.println(currentCard.id + " " + currentCard.question + " " + currentCard.buildDate);
                     }
                 }
             }
@@ -75,28 +75,28 @@ public class ConsoleApp implements QuarkusApplication {
 
             if ("Start Random".equals(input) || "Start random".equals(input) || "start random".equals(input)) {
 
-                boolean weiter = true;
-                int randomVersuche = 1;
+                boolean continuing = true;
+                int randomTries  = 1;
 
                 do {
-                    if (randomVersuche <= 1){
+                    if (randomTries  <= 1){
                         Random rand = new Random();
 
                         int randomIndex;
                         do {
                             randomIndex = rand.nextInt(cards.size());
-                        } while (randomIndex == comparisonid);
+                        } while (randomIndex == lastRandomIndex );
 
                         Card currentCard = cards.get(randomIndex);
-                        comparisonid = randomIndex;
+                        lastRandomIndex  = randomIndex;
 
                         if (!currentCard.question.equals(" ")) {
                             System.out.println("Frage: " + currentCard.question);
                             System.out.print("Antwort: ");
-                            Scanner newlernantwort = new Scanner(System.in);
-                            String antwort1 = newlernantwort.nextLine();
-                            if (antwort1.length() <= 251) {
-                                if (!antwort1.equals(currentCard.answer)) {
+                            Scanner newLearnAnswer = new Scanner(System.in);
+                            String answer1 = newLearnAnswer.nextLine();
+                            if (answer1.length() <= 251) {
+                                if (!answer1.equals(currentCard.answer)) {
                                     System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
                                 } else {
                                     System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
@@ -104,33 +104,33 @@ public class ConsoleApp implements QuarkusApplication {
                             } else {
                                 System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
                             }}
-                        randomVersuche++;}
+                        randomTries++;}
                     else {
 
                     System.out.println("`stop random` zum beenden enter drücken zum fortfahren  ");
-                    String randomweiter;
-                    randomweiter = scanner.nextLine();
+                    String randomContinue;
+                        randomContinue = scanner.nextLine();
 
-                    if ("Stop Random".equals(randomweiter) || "Stop random".equals(randomweiter) || "stop random".equals(randomweiter)) {
-                        weiter = false;
+                    if ("Stop Random".equals(randomContinue) || "Stop random".equals(randomContinue) || "stop random".equals(randomContinue)) {
+                        continuing = false;
                     } else {
                         Random rand = new Random();
 
                         int randomIndex;
                         do {
                             randomIndex = rand.nextInt(cards.size());
-                        } while (randomIndex == comparisonid);
+                        } while (randomIndex == lastRandomIndex );
 
                         Card currentCard = cards.get(randomIndex);
-                        comparisonid = randomIndex;
+                        lastRandomIndex  = randomIndex;
 
                         if (!currentCard.question.equals(" ")) {
                             System.out.println("Frage: " + currentCard.question);
                             System.out.print("Antwort: ");
-                            Scanner newlernantwort = new Scanner(System.in);
-                            String antwort1 = newlernantwort.nextLine();
-                            if (antwort1.length() <= 251) {
-                                if (!antwort1.equals(currentCard.answer)) {
+                            Scanner newLearnAnswer = new Scanner(System.in);
+                            String answer1 = newLearnAnswer.nextLine();
+                            if (answer1.length() <= 251) {
+                                if (!answer1.equals(currentCard.answer)) {
                                     System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
                                 } else {
                                     System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
@@ -139,10 +139,10 @@ public class ConsoleApp implements QuarkusApplication {
                                 System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
                             }
                         }
-                        randomVersuche++;
+                        randomTries ++;
                     }
                 }}
-                while (weiter == true);
+                while (continuing == true);
 
 
             }
