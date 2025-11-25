@@ -15,19 +15,19 @@ import java.time.format.DateTimeFormatter;
 @QuarkusMain
 public class ConsoleApp implements QuarkusApplication {
 
-    static int nextid = 0;
+    static int nextId = 0;
 
     public class Card{
         int id;
         String question;
         String answer;
-        LocalDate builddate;
+        LocalDate buildDate;
 
         public Card(String question, String answer, String dateString) {
-            this.id = nextid++;
+            this.id = nextId++;
             this.question = question;
             this.answer = answer;
-            this.builddate = LocalDate.parse(dateString);
+            this.buildDate = LocalDate.parse(dateString);
         }
 
 
@@ -62,10 +62,10 @@ public class ConsoleApp implements QuarkusApplication {
             }
 
             if ("learn".equals(input) || "Learn".equals(input)) {
-                String numberlearn;
+                String numberLearn;
                 System.out.print("ID: ");
-                numberlearn = scanner.nextLine();
-                int idNumber = Integer.parseInt(numberlearn);
+                numberLearn = scanner.nextLine();
+                int idNumber = Integer.parseInt(numberLearn);
 
 
                 Card currentCard = null;
@@ -75,20 +75,20 @@ public class ConsoleApp implements QuarkusApplication {
                         break;
                     }
                 }
-                int maxid = cards.size()-1;
-                 if(idNumber > maxid) {
+                int maxId = cards.size()-1;
+                 if(idNumber > maxId) {
                     System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
                     continue;
 
                 }
 
-                if (!currentCard.question.equals(" ")) {
+                if ( !currentCard.question.trim().equals("")) {
                     System.out.println("Frage: " + currentCard.question);
                     System.out.print("Antwort: ");
-                    Scanner newlernantwort = new Scanner(System.in);
-                    String antwort1 = newlernantwort.nextLine();
-                    if (antwort1.length() <= 251) {
-                        if (!antwort1.equals(currentCard.answer)) {
+                    Scanner newlearnanswer = new Scanner(System.in);
+                    String answer1 = newlearnanswer.nextLine();
+                    if (answer1.length() <= 251) {
+                        if (!answer1.equals(currentCard.answer)) {
                             System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer );
                         } else {
                             System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
@@ -104,7 +104,7 @@ public class ConsoleApp implements QuarkusApplication {
             if ("show all".equals(input) || "Show all".equals(input)|| "Show All".equals(input)){
 
                 System.out.println("Deine vorhandenen Karten...");
-                cards.sort(Comparator.comparing(card -> card.builddate));
+                cards.sort(Comparator.comparing(card -> card.buildDate));
 
                 System.out.printf("%-5s | %-50s | %-95s%n", "ID", "Frage", "Erstellt am");
                 System.out.println("------------------------------------------------------------------------");
@@ -115,7 +115,7 @@ public class ConsoleApp implements QuarkusApplication {
                         System.out.printf("%-5s | %-50s | %-95s%n",
                                 currentCard.id,
                                 currentCard.question,
-                                currentCard.builddate.toString());
+                                currentCard.buildDate.toString());
                     }
                 }
             }
