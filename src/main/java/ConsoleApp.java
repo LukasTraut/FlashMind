@@ -9,26 +9,23 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
-
-
-
 @QuarkusMain
 public class ConsoleApp implements QuarkusApplication {
 
-    static int nextid = 0;
+    static int nextId = 0;
 
-    public class Card{
+    public class Card {
 
         int id;
         String question;
         String answer;
-        LocalDate builddate;
+        LocalDate buildDate;
 
         public Card(String question, String answer, String dateString) {
-            this.id = nextid++;
+            this.id = nextId++;
             this.question = question;
             this.answer = answer;
-            this.builddate = LocalDate.parse(dateString);
+            this.buildDate = LocalDate.parse(dateString);
         }
 
 
@@ -43,7 +40,6 @@ public class ConsoleApp implements QuarkusApplication {
         cards.add(new Card("Wann wurde Frankfurt gegründet?", "1899", "2025-09-04"));
         cards.add(new Card("Wie heisst die schönste Stadt auf der Welt?", "Frankfurt", "2025-09-05"));
         cards.add(new Card("Wann wurde Eintracht Frankfurt Deutscher Meister?", "1959", "2025-04-05"));
-
 
 
         while (true) {
@@ -63,79 +59,77 @@ public class ConsoleApp implements QuarkusApplication {
             }
 
 
-
-            if ("show all".equals(input) || "Show all".equals(input)|| "Show All".equals(input)){
+            if ("show all".equals(input) || "Show all".equals(input) || "Show All".equals(input)) {
 
                 System.out.println("Deine vorhandenen Karten...");
-                cards.sort(Comparator.comparing(card -> card.builddate));
+                cards.sort(Comparator.comparing(card -> card.buildDate));
 
                 System.out.printf("%-5s | %-50s | %-95s%n", "ID", "Frage", "Erstellt am");
                 System.out.println("------------------------------------------------------------------------");
 
                 for (int ks = 0; ks < cards.size(); ks++) {
-                    Card aktuelleKarte = cards.get(ks);
-                    if (!aktuelleKarte.question.equals(" ")) {
+                    Card currentCard = cards.get(ks);
+                    if (!currentCard.question.equals(" ")) {
                         System.out.printf("%-5s | %-50s | %-95s%n",
-                                aktuelleKarte.id,
-                                aktuelleKarte.question,
-                                aktuelleKarte.builddate.toString());
+                                currentCard.id,
+                                currentCard.question,
+                                currentCard.buildDate.toString());
                     }
                 }
             }
 
-            if ("open".equals(input)|| "Open".equals(input)) {
+            if ("open".equals(input) || "Open".equals(input)) {
 
                 String number;
                 System.out.print("ID: ");
                 number = scanner.nextLine();
 
                 int idNumber = Integer.parseInt(number);
-                int maxid = cards.size()-1;
-                if(idNumber > maxid) {
+                int maxId = cards.size() - 1;
+                if (idNumber > maxId) {
                     System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
                     continue;
                 }
 
-                Card aktuelleKarte = null;
+                Card currentCard = null;
                 for (Card c : cards) {
                     if (c.id == idNumber) {
-                        aktuelleKarte = c;
+                        currentCard = c;
                         break;
                     }
                 }
 
-                if (!aktuelleKarte.question.equals(" ")) {
+                if (!currentCard.question.equals(" ")) {
                     System.out.printf("%-25s | %-95s%n", "Frage", "Antwort");
                     System.out.println("------------------------------------");
-                    System.out.println(aktuelleKarte.question + " " + aktuelleKarte.answer);
+                    System.out.println(currentCard.question + " " + currentCard.answer);
                 }
 
 
-                        System.out.print("Zum schliessen `close` schreiben: ");
-                        String close = scanner.nextLine();
-                            if (close.equals("close")|| close.equals("Close")) {
+                System.out.print("Zum schliessen `close` schreiben: ");
+                String close = scanner.nextLine();
+                if (close.equals("close") || close.equals("Close")) {
 
-                                System.out.println("Deine vorhandenen Karten...");
-                                cards.sort(Comparator.comparing(card -> card.builddate));
+                    System.out.println("Deine vorhandenen Karten...");
+                    cards.sort(Comparator.comparing(card -> card.buildDate));
 
-                                System.out.printf("%-5s | %-50s | %-95s%n", "ID", "Frage", "Erstellt am");
-                                System.out.println("------------------------------------------------------------------------");
+                    System.out.printf("%-5s | %-50s | %-95s%n", "ID", "Frage", "Erstellt am");
+                    System.out.println("------------------------------------------------------------------------");
 
-                                for (int ks = 0; ks < cards.size(); ks++) {
-                                     aktuelleKarte = cards.get(ks);
-                                    if (!aktuelleKarte.question.equals(" ")) {
-                                        System.out.printf("%-5s | %-50s | %-95s%n",
-                                                aktuelleKarte.id,
-                                                aktuelleKarte.question,
-                                                aktuelleKarte.builddate.toString());
-                                    }
-                                }
+                    for (int ks = 0; ks < cards.size(); ks++) {
+                        currentCard = cards.get(ks);
+                        if (!currentCard.question.equals(" ")) {
+                            System.out.printf("%-5s | %-50s | %-95s%n",
+                                    currentCard.id,
+                                    currentCard.question,
+                                    currentCard.buildDate.toString());
+                        }
+                    }
+                } else {
+                    System.out.println("\u001B[31mGib close zum schliessen ein(ALLES KLEIN!)\u001B[0m");
                 }
-                            else {
-                                System.out.println("\u001B[31mGib close zum schliessen ein(ALLES KLEIN!)\u001B[0m");
-                            }
             }
-            if( !"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input)) {
+            if (!"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input)) {
 
                 System.out.println("\u001B[31mBefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
             }
