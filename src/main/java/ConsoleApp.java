@@ -111,7 +111,7 @@ public class ConsoleApp {
                 writer.write("\"id\": " + card.id + ",\n");
                 writer.write("\"question\": \"" + card.question + "\",\n");
                 writer.write("\"answer\": \"" + card.answer + "\",\n");
-                writer.write("\"builddate\": \"" + card.builDdate + "\",\n");
+                writer.write("\"builddate\": \"" + card.buildDate + "\",\n");
                 writer.write("\"counter\": " + card.counter + ",\n");
                 writer.write("\"correctcounter\": " + card.correctCounter + ",\n");
                 writer.write("\"falsecounter\": " + card.falseCounter + ",\n");
