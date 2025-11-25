@@ -15,6 +15,7 @@ public class ConsoleApp implements QuarkusApplication {
     static int nextId = 0;
 
     public class Card {
+
         int id;
         String question;
         String answer;
@@ -44,6 +45,8 @@ public class ConsoleApp implements QuarkusApplication {
 
         while (true) {
             System.out.println("start random = Zufälliges Lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
+            System.out.println("open = Öffnen einer Lernkarte / show all = Alle anzeigen / exit = Programm schliessen");
+            System.out.println("learn = Lernkarte lernen / show all = Alle anzeigen / exit = Programm schliessen");
 
             String input;
 
@@ -51,24 +54,120 @@ public class ConsoleApp implements QuarkusApplication {
             System.out.print("> ");
             input = scanner.nextLine();
 
-            if ("exit".equals(input)) {
+            if ("exit".equals(input) || "Exit".equals(input)) {
 
                 System.out.println("Programm wird beendet...");
                 scanner.close();
                 return 0;
             }
 
+            if ("learn".equals(input) || "Learn".equals(input)) {
+                String numberLearn;
+                System.out.print("ID: ");
+                numberLearn = scanner.nextLine();
+                int idNumber = Integer.parseInt(numberLearn);
 
-            if ("show all".equals(input)) {
+
+                Card currentCard = null;
+                for (Card c : cards) {
+                    if (c.id == idNumber) {
+                        currentCard = c;
+                        break;
+                    }
+                }
+                int maxId = cards.size() - 1;
+                if (idNumber > maxId) {
+                    System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
+                    continue;
+
+                }
+
+                if (!currentCard.question.trim().equals("")) {
+                    System.out.println("Frage: " + currentCard.question);
+                    System.out.print("Antwort: ");
+                    Scanner newLearnAnswer = new Scanner(System.in);
+                    String answer1 = newLearnAnswer.nextLine();
+                    if (answer1.length() <= 251) {
+                        if (!answer1.equals(currentCard.answer)) {
+                            System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
+                        } else {
+                            System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
+                        }
+                    } else {
+                        System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
+                    }
+                }
+
+            if ("show all".equals(input) || "Show all".equals(input) || "Show All".equals(input)) {
 
                 System.out.println("Deine vorhandenen Karten...");
                 cards.sort(Comparator.comparing(card -> card.buildDate));
 
+                System.out.printf("%-5s | %-50s | %-95s%n", "ID", "Frage", "Erstellt am");
+                System.out.println("------------------------------------------------------------------------");
+
                 for (int ks = 0; ks < cards.size(); ks++) {
                     Card currentCard = cards.get(ks);
                     if (!currentCard.question.equals(" ")) {
-                        System.out.println(currentCard.id + " " + currentCard.question + " " + currentCard.buildDate);
+                        System.out.printf("%-5s | %-50s | %-95s%n",
+                                currentCard.id,
+                                currentCard.question,
+                                currentCard.buildDate.toString());
                     }
+                }
+            }
+
+            if ("open".equals(input) || "Open".equals(input)) {
+
+                String number;
+                System.out.print("ID: ");
+                number = scanner.nextLine();
+
+                int idNumber = Integer.parseInt(number, 10);
+                int maxId = cards.size() - 1;
+                if (idNumber > maxId) {
+                    System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
+                    continue;
+                }
+
+                Card currentCard = cards.stream()
+                        .filter(c -> c.id == idNumber)
+                        .findFirst()
+                        .orElse(null);
+
+                if (currentCard != null) {
+                    System.out.printf("%-25s | %-95s%n", "Frage", "Antwort");
+                    System.out.println("------------------------------------");
+                    System.out.println(currentCard.question + " " + currentCard.answer);
+                }
+
+                else {
+                    System.out.println("Karte nicht gefunden");
+                }
+
+
+
+                System.out.print("Zum schliessen `close` schreiben: ");
+                String close = scanner.nextLine();
+                if (close.equals("close") || close.equals("Close")) {
+
+                    System.out.println("Deine vorhandenen Karten...");
+                    cards.sort(Comparator.comparing(card -> card.buildDate));
+
+                    System.out.printf("%-5s | %-50s | %-95s%n", "ID", "Frage", "Erstellt am");
+                    System.out.println("------------------------------------------------------------------------");
+
+                    for (int ks = 0; ks < cards.size(); ks++) {
+                        currentCard = cards.get(ks);
+                        if (!currentCard.question.equals(" ")) {
+                            System.out.printf("%-5s | %-50s | %-95s%n",
+                                    currentCard.id,
+                                    currentCard.question,
+                                    currentCard.buildDate.toString());
+                        }
+                    }
+                } else {
+                    System.out.println("\u001B[31mGib close zum schliessen ein(ALLES KLEIN!)\u001B[0m");
                 }
             }
 
@@ -145,7 +244,9 @@ public class ConsoleApp implements QuarkusApplication {
                     }
                 } while (continuing == true);
 
+            if (!"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input)) {
 
+                System.out.println("\u001B[31mBefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
             }
         }
     }
