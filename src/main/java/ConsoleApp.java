@@ -212,8 +212,38 @@ public class ConsoleApp {
 
             if ("show all".equals(input) || "Show all".equals(input)|| "Show All".equals(input)){
 
+                Scanner  sortby = new Scanner(System.in);
+                System.out.println("Sortieren nach: sort id/ sort builddate/ sort best/ sort worst/ sort latest/ sort refresh");
+
+                    switch (sortby.nextLine()){
+                        case "sort id":
+                            cards.sort(Comparator.comparing(card -> card.id ));
+                            Collections.reverse(cards);
+                            break;
+                        case "sort builddate":
+                            cards.sort(Comparator.comparing(card -> card.builddate));
+                            Collections.reverse(cards);
+                            break;
+                        case "sort best":
+                            cards.sort(Comparator.comparing(card -> card.correctCounter));
+                            break;
+                        case "sort worst":
+                            cards.sort(Comparator.comparing(card -> card.falseCounter));
+                            Collections.reverse(cards);
+                            break;
+                        case "sort latest":
+                            cards.sort(Comparator.comparing(card -> card.lastlearn));
+                            Collections.reverse(cards);
+                            break;
+                        case "sort refresh":
+                            cards.sort(Comparator.comparing(card -> card.lastlearn));
+                            break;
+                        default:
+                            System.out.println("\u001B[31mSortierbefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
+
+
+                }
                 System.out.println("Deine vorhandenen Karten...");
-                cards.sort(Comparator.comparing(card -> card.builddate));
 
                 System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n", "ID", "Frage", "Erstellt am", "Counter", "Richtig gelernt", "Falsch gelernt", "Letztes mal gelernt am");
                 System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -221,6 +251,104 @@ public class ConsoleApp {
                 for (int ks = 0; ks < cards.size(); ks++) {
                     Card currentCard = cards.get(ks);
                     if (!currentCard.question.equals(" ")) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
                                 currentCard.id,
                                 currentCard.question,
