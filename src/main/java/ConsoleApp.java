@@ -43,7 +43,7 @@ public class ConsoleApp implements QuarkusApplication {
         int lastRandomIndex = 0;
 
         while (true) {
-            System.out.println("start random = Zufälliges lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
+            System.out.println("start random = Zufälliges Lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
 
             String input;
 
@@ -90,7 +90,7 @@ public class ConsoleApp implements QuarkusApplication {
                         Card currentCard = cards.get(randomIndex);
                         lastRandomIndex = randomIndex;
 
-                        if (!currentCard.question.equals(" ")) {
+                        if (!currentCard.question.trim().equals("")) {
                             System.out.println("Frage: " + currentCard.question);
                             System.out.print("Antwort: ");
                             Scanner newLearnAnswer = new Scanner(System.in);
@@ -108,12 +108,12 @@ public class ConsoleApp implements QuarkusApplication {
                         randomTries++;
                     } else {
 
-                        System.out.println("`stop random` zum beenden enter drücken zum fortfahren  ");
+                        System.out.println("`stop random` zum beenden enter drücken zum fortfahren");
                         String randomContinue;
                         randomContinue = scanner.nextLine();
 
                         if ("Stop Random".equals(randomContinue) || "Stop random".equals(randomContinue) || "stop random".equals(randomContinue)) {
-                            continuing = false;
+                            break;
                         } else {
                             Random rand = new Random();
 
@@ -143,8 +143,7 @@ public class ConsoleApp implements QuarkusApplication {
                             randomTries++;
                         }
                     }
-                }
-                while (continuing == true);
+                } while (continuing == true);
 
 
             }
