@@ -44,6 +44,7 @@ public class ConsoleApp implements QuarkusApplication {
 
         while (true) {
             System.out.println("open = Öffnen einer Lernkarte / show all = Alle anzeigen / exit = Programm schliessen");
+            System.out.println("learn = Lernkarte lernen / show all = Alle anzeigen / exit = Programm schliessen");
 
             String input;
 
@@ -58,6 +59,42 @@ public class ConsoleApp implements QuarkusApplication {
                 return 0;
             }
 
+            if ("learn".equals(input) || "Learn".equals(input)) {
+                String numberLearn;
+                System.out.print("ID: ");
+                numberLearn = scanner.nextLine();
+                int idNumber = Integer.parseInt(numberLearn);
+
+
+                Card currentCard = null;
+                for (Card c : cards) {
+                    if (c.id == idNumber) {
+                        currentCard = c;
+                        break;
+                    }
+                }
+                int maxId = cards.size() - 1;
+                if (idNumber > maxId) {
+                    System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
+                    continue;
+
+                }
+
+                if (!currentCard.question.trim().equals("")) {
+                    System.out.println("Frage: " + currentCard.question);
+                    System.out.print("Antwort: ");
+                    Scanner newLearnAnswer = new Scanner(System.in);
+                    String answer1 = newLearnAnswer.nextLine();
+                    if (answer1.length() <= 251) {
+                        if (!answer1.equals(currentCard.answer)) {
+                            System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
+                        } else {
+                            System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
+                        }
+                    } else {
+                        System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
+                    }
+                }
 
             if ("show all".equals(input) || "Show all".equals(input) || "Show All".equals(input)) {
 
