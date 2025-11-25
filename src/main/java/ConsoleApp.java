@@ -84,26 +84,28 @@ public class ConsoleApp implements QuarkusApplication {
                 System.out.print("ID: ");
                 number = scanner.nextLine();
 
-                int idNumber = Integer.parseInt(number);
+                int idNumber = Integer.parseInt(number, 10);
                 int maxId = cards.size() - 1;
                 if (idNumber > maxId) {
                     System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
                     continue;
                 }
 
-                Card currentCard = null;
-                for (Card c : cards) {
-                    if (c.id == idNumber) {
-                        currentCard = c;
-                        break;
-                    }
-                }
+                Card currentCard = cards.stream()
+                        .filter(c -> c.id == idNumber)
+                        .findFirst()
+                        .orElse(null);
 
-                if (!currentCard.question.equals(" ")) {
+                if (currentCard != null) {
                     System.out.printf("%-25s | %-95s%n", "Frage", "Antwort");
                     System.out.println("------------------------------------");
                     System.out.println(currentCard.question + " " + currentCard.answer);
                 }
+
+                else {
+                    System.out.println("Karte nicht gefunden");
+                }
+
 
 
                 System.out.print("Zum schliessen `close` schreiben: ");
