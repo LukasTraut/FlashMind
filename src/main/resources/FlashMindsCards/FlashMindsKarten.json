@@ -1,56 +1,68 @@
 [
 {
-"id": 4,
-"question": "Was ist Hallo?",
-"answer": "Hallo ist Hallo",
-"builddate": "2025-01-05",
+"id": 6,
+"question": "Welche fare hat eine Mango",
+"answer": "Gelb",
+"builddate": "2025-06-08",
+"counter": 2,
+"correctcounter": 0,
+"falsecounter": 2,
+"lastlearn": "2025-11-25"
+}
+,
+{
+"id": 5,
+"question": "Welche Farbe hat eine Erdbeere",
+"answer": "Rot",
+"builddate": "2025-05-08",
 "counter": 1,
-"correct": false
-},
-
+"correctcounter": 0,
+"falsecounter": 1,
+"lastlearn": "2025-11-19"
+}
+,
+{
+"id": 4,
+"question": "Welche Farbe hat eine Heidelbeere?",
+"answer": "Blau",
+"builddate": "2025-01-05",
+"counter": 3,
+"correctcounter": 0,
+"falsecounter": 2,
+"lastlearn": "2025-11-25"
+}
+,
 {
 "id": 3,
 "question": "Wann wurde Eintracht Frankfurt Deutscher Meister?",
 "answer": "1959",
 "builddate": "2025-04-05",
-"counter": 1,
-"correct": false
-},
-
-{
-"id": 5,
-"question": "ffff",
-"answer": "aaaaa",
-"builddate": "2025-05-08",
-"counter": 0,
-"correct": false
-},
-
-{
-"id": 6,
-"question": "rudiiiiiiiiiiiiiiiiiiii",
-"answer": "aaafa",
-"builddate": "2025-06-08",
-"counter": 0,
-"correct": false
-},
-
-{
-"id": 1,
-"question": "Wann wurde Frankfurt gegründet?",
-"answer": "1899",
-"builddate": "2025-09-04",
-"counter": 4,
-"correct": true
-},
-
+"counter": 5,
+"correctcounter": 3,
+"falsecounter": 1,
+"lastlearn": "2025-11-25"
+}
+,
 {
 "id": 2,
 "question": "Wie heisst die schönste Stadt auf der Welt?",
 "answer": "Frankfurt",
 "builddate": "2025-09-05",
-"counter": 3,
-"correct": true
-},
+"counter": 6,
+"correctcounter": 3,
+"falsecounter": 0,
+"lastlearn": "2025-11-19"
+}
+,
+{
+"id": 1,
+"question": "Wann wurde Frankfurt gegründet?",
+"answer": "1899",
+"builddate": "2025-09-04",
+"counter": 13,
+"correctcounter": 4,
+"falsecounter": 3,
+"lastlearn": "2025-11-25"
+}
 
 ]

@@ -117,9 +117,9 @@ public class ConsoleApp {
                 writer.write("\"correctcounter\": " + card.correctCounter + ",\n");
                 writer.write("\"falsecounter\": " + card.falseCounter + ",\n");
                 writer.write("\"lastlearn\": \"" + card.lastlearn + "\"\n");
-                writer.write("},\n");
+                writer.write("}\n");
 
-                if (i > cards.size() - 1) {
+                if (i < cards.size() - 1) {
                     writer.write(",");
                 }
                 writer.write("\n");
