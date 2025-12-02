@@ -3,7 +3,9 @@ import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
-import java.nio.channels.ScatteringByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -12,10 +14,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-
-import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @QuarkusMain
 public class ConsoleApp {
@@ -33,7 +31,7 @@ public class ConsoleApp {
         public LocalDate lastLearn;
 
 
-        public Card(String question, String answer, String dateString, Integer counter, Integer correctCounter, Integer falseCounter, String lastDate) {
+        public Card(String question, String answer, String dateString, int counter, int correctCounter, int falseCounter, String lastDate) {
             this.id = nextId++;
             this.question = question;
             this.answer = answer;
@@ -100,7 +98,6 @@ public class ConsoleApp {
 
     public static void saveCardsToFile(File file, List<Card> cards) {
         try (FileWriter writer = new FileWriter(file)) {
-
             writer.write("[\n");
 
             for (int i = 0; i < cards.size(); i++) {
@@ -180,8 +177,8 @@ public class ConsoleApp {
                 if (!currentCard.question.equals(" ")) {
                     System.out.println("Frage: " + currentCard.question);
                     System.out.print("Antwort: ");
-                    Scanner newlearnanswer = new Scanner(System.in);
-                    String answer1 = newlearnanswer.nextLine();
+                    Scanner newLearnAnswer = new Scanner(System.in);
+                    String answer1 = newLearnAnswer.nextLine();
                     if (answer1.length() <= 251) {
                         if (!answer1.equals(currentCard.answer)) {
                             System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
