@@ -48,10 +48,10 @@ public class ConsoleApp {
     }
 
 
-    public static List<Card> loadCardsFromFile(File file) {
+    public static List<Card> loadCardsFromFile(Path path) {
         List<Card> cards = new ArrayList<>();
 
-        try (Scanner scanner = new Scanner(file)) {
+        try (Scanner scanner = new Scanner(path)) {
             StringBuilder json = new StringBuilder();
             while (scanner.hasNextLine()) {
                 json.append(scanner.nextLine());
@@ -59,7 +59,7 @@ public class ConsoleApp {
 
             String content = json.toString().trim();
             content = content.substring(1, content.length() - 1);
-            String[] objects = content.split("\\},\\s*\\{");
+            String[] objects = content.split("},\\s*\\{");
 
             for (String obj : objects) {
                 obj = obj.replace("{", "").replace("}", "").trim();
@@ -75,7 +75,7 @@ public class ConsoleApp {
                 String lastLearn = "";
 
                 for (String field : fields) {
-                    String[] keyValue = field.split(":");
+                    String[] keyValue = field.split("(?<!\\\\):");
                     String key = keyValue[0].replace("\"", "").trim();
                     String value = keyValue[1].replace("\"", "").trim();
 
@@ -100,8 +100,8 @@ public class ConsoleApp {
         return cards;
     }
 
-    public static void saveCardsToFile(File file, List<Card> cards) {
-        try (FileWriter writer = new FileWriter(file)) {
+    public static void saveCardsToFile(Path path, List<Card> cards) {
+        try (FileWriter writer = new FileWriter(path.toFile())) {
             writer.write("[\n");
 
             for (int i = 0; i < cards.size(); i++) {
@@ -111,7 +111,7 @@ public class ConsoleApp {
                 writer.write("{\n");
                 writer.write("\"id\": " + card.id + ",\n");
                 writer.write("\"question\": \"" + card.question + "\",\n");
-                writer.write("\"answer\": \"" + card.answer + "\",\n");
+                writer.write("\"answer\": \"" + card.answer.replace("}", "\\}").replace("{", "\\{") + "\",\n");
                 writer.write("\"builddate\": \"" + card.buildDate + "\",\n");
                 writer.write("\"counter\": " + card.counter + ",\n");
                 writer.write("\"correctcounter\": " + card.correctCounter + ",\n");
@@ -125,247 +125,184 @@ public class ConsoleApp {
                 writer.write("\n");
             }
             writer.write("]");
-            System.out.println("Erfolgreich gespeichert");
         } catch (IOException e) {
             System.out.println("Fehler beim Speichern der JSON-Datei: " + e.getMessage());
         }
     }
-
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
 
-        File flashCard = new File("src/main/resources/FlashMindsCards/FlashMindsKarten.json");
+        Path flashCard = Paths.get("src/main/resources/FlashMindsCards/FlashMindsKarten.json");
 
         List<Card> cards = loadCardsFromFile(flashCard);
-
         while (true) {
 
-        int lastRandomIndex = 0;
+            int lastRandomIndex = 0;
 
-        while (true) {
-            System.out.println("start random = Zufälliges Lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
-            System.out.println("open = Öffnen einer Lernkarte / show all = Alle anzeigen / exit = Programm schliessen");
-            System.out.println("learn = Lernkarte lernen / show all = Alle anzeigen / exit = Programm schliessen");
+            while (true) {
+                System.out.println("learn = Lernkarte lernen / start random = Zufälliges Lernen/ show all = Alle anzeigen/ open = Öffnen einer Lernkarte / exit = Programm schliessen");
 
-            String input;
+                String input;
 
 
-            System.out.print("> ");
-            input = scanner.nextLine();
+                System.out.print("> ");
+                input = scanner.nextLine();
 
-            if ("exit".equals(input) || "Exit".equals(input)) {
+                if ("exit".equals(input) || "Exit".equals(input)) {
 
-                System.out.println("Programm wird beendet...");
-                scanner.close();
-            }
+                    System.out.println("Programm wird beendet...");
+                    scanner.close();
+                }
 
-            if ("learn".equals(input) || "Learn".equals(input)) {
-                String numberLearn;
-                System.out.print("ID: ");
-                numberLearn = scanner.nextLine();
-                int idNumber = Integer.parseInt(numberLearn);
+                if ("learn".equals(input) || "Learn".equals(input)) {
+                    String numberLearn;
+                    System.out.print("ID: ");
+                    numberLearn = scanner.nextLine();
+                    int idNumber = Integer.parseInt(numberLearn);
 
 
-                Card currentCard = null;
-                for (Card c : cards) {
-                    if (c.id == idNumber) {
-                        currentCard = c;
-                        break;
+                    Card currentCard = null;
+                    for (Card c : cards) {
+                        if (c.id == idNumber) {
+                            currentCard = c;
+                            break;
+                        }
                     }
-                }
-                int maxId = cards.size();
-                if (idNumber > maxId) {
-                    System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
-                    continue;
+                    int maxId = cards.size();
+                    if (idNumber > maxId) {
+                        System.out.printf("\u001B[31mDiese ID gibt es nicht, die höchste ID ist %d%n\u001B[0m", cards.size());
+                        continue;
 
-                }
+                    }
 
-                if (!currentCard.question.equals(" ")) {
-                    System.out.println("Frage: " + currentCard.question);
-                    System.out.print("Antwort: ");
-                    Scanner newLearnAnswer = new Scanner(System.in);
-                    String answer1 = newLearnAnswer.nextLine();
-                    if (answer1.length() <= 251) {
-                        if (!answer1.equals(currentCard.answer)) {
-                            System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
+                    if (!currentCard.question.equals(" ")) {
+                        System.out.println("Frage: " + currentCard.question);
+                        System.out.print("Antwort: ");
+                        Scanner newLearnAnswer = new Scanner(System.in);
+                        String answer1 = newLearnAnswer.nextLine();
+                        if (answer1.length() <= 251) {
+                            if (!answer1.equals(currentCard.answer)) {
+                                System.out.println("\u001B[31mDie Antwort war leider falsch, die richtige antwort ist: \u001B[0m" + currentCard.answer);
+                                currentCard.falseCounter++;
+                                currentCard.counter++;
+                                currentCard.lastLearn = LocalDate.now();
+                                saveCardsToFile(flashCard, cards);
+                            } else {
+                                System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
+                                currentCard.correctCounter++;
+                                currentCard.counter++;
+                                currentCard.lastLearn = LocalDate.now();
+                                saveCardsToFile(flashCard, cards);
+                            }
+                        } else {
+                            System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
                             currentCard.falseCounter++;
                             currentCard.counter++;
                             currentCard.lastLearn = LocalDate.now();
                             saveCardsToFile(flashCard, cards);
-                        } else {
-                            System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
-                            currentCard.correctCounter++;
-                            currentCard.counter++;
-                            currentCard.lastLearn = LocalDate.now();
-                            saveCardsToFile(flashCard, cards);
                         }
-                    } else {
-                        System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
-                        currentCard.falseCounter++;
-                        currentCard.counter++;
-                        currentCard.lastLearn = LocalDate.now();
-                        saveCardsToFile(flashCard, cards);
                     }
-                }
-
-            }
-
-            if ("show all".equals(input) || "Show all".equals(input) || "Show All".equals(input)) {
-
-                Scanner sortby = new Scanner(System.in);
-                System.out.println("Sortieren nach: sort id/ sort builddate/ sort best/ sort worst/ sort latest/ sort refresh");
-
-                switch (sortby.nextLine()) {
-                    case "sort id":
-                        cards.sort(Comparator.comparing(card -> card.id));
-                        Collections.reverse(cards);
-                        break;
-                    case "sort builddate":
-                        cards.sort(Comparator.comparing(card -> card.buildDate));
-                        Collections.reverse(cards);
-                        break;
-                    case "sort best":
-                        cards.sort(Comparator.comparing(card -> card.correctCounter));
-                        break;
-                    case "sort worst":
-                        cards.sort(Comparator.comparing(card -> card.falseCounter));
-                        Collections.reverse(cards);
-                        break;
-                    case "sort latest":
-                        cards.sort(Comparator.comparing(card -> card.lastLearn));
-                        Collections.reverse(cards);
-                        break;
-                    case "sort refresh":
-                        cards.sort(Comparator.comparing(card -> card.lastLearn));
-                        break;
-                    default:
-                        System.out.println("\u001B[31mSortierbefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
-
 
                 }
-                System.out.println("Deine vorhandenen Karten...");
 
-                System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n", "ID", "Frage", "Erstellt am", "Counter", "Richtig gelernt", "Falsch gelernt", "Letztes mal gelernt am");
-                System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------");
+                if ("show all".equals(input) || "Show all".equals(input) || "Show All".equals(input)) {
 
-                for (int ks = 0; ks < cards.size(); ks++) {
-                    Card currentCard = cards.get(ks);
-                    if (!currentCard.question.equals(" ")) {
+                    Scanner sortby = new Scanner(System.in);
+                    System.out.println("Sortieren nach: sort id/ sort builddate/ sort best/ sort worst/ sort latest/ sort refresh");
 
-                        System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
-                                currentCard.id,
-                                currentCard.question,
-                                currentCard.buildDate.toString(),
-                                currentCard.counter,
-                                currentCard.correctCounter,
-                                currentCard.falseCounter,
-                                currentCard.lastLearn
-                        );
+                    switch (sortby.nextLine()) {
+                        case "sort id":
+                            cards.sort(Comparator.comparing(card -> card.id));
+                            break;
+                        case "sort builddate":
+                            cards.sort(Comparator.comparing(card -> card.buildDate));
+                            Collections.reverse(cards);
+                            break;
+                        case "sort best":
+                            cards.sort(Comparator.comparing(card -> card.correctCounter));
+                            break;
+                        case "sort worst":
+                            cards.sort(Comparator.comparing(card -> card.falseCounter));
+                            Collections.reverse(cards);
+                            break;
+                        case "sort latest":
+                            cards.sort(Comparator.comparing(card -> card.lastLearn));
+                            Collections.reverse(cards);
+                            break;
+                        case "sort refresh":
+                            cards.sort(Comparator.comparing(card -> card.lastLearn));
+                            break;
+                        default:
+                            System.out.println("\u001B[31mSortierbefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
+
 
                     }
-                }
-            }
-
-            if ("open".equals(input) || "Open".equals(input)) {
-
-                String number;
-                System.out.print("ID: ");
-                number = scanner.nextLine();
-
-                int idNumber = Integer.parseInt(number, 10);
-                int maxId = cards.size() - 1;
-                if (idNumber > maxId) {
-                    System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
-                    continue;
-                }
-
-                Card currentCard = cards.stream()
-                        .filter(c -> c.id == idNumber)
-                        .findFirst()
-                        .orElse(null);
-
-                if (currentCard != null) {
-                    System.out.printf("%-25s | %-95s%n", "Frage", "Antwort");
-                    System.out.println("------------------------------------");
-                    System.out.println(currentCard.question + " " + currentCard.answer);
-                }
-
-                else {
-                    System.out.println("Karte nicht gefunden");
-                }
-
-
-
-                System.out.print("Zum schliessen `close` schreiben: ");
-                String close = scanner.nextLine();
-                if (close.equals("close") || close.equals("Close")) {
 
                     System.out.println("Deine vorhandenen Karten...");
-                    cards.sort(Comparator.comparing(card -> card.buildDate));
 
-                    System.out.printf("%-5s | %-50s | %-95s%n", "ID", "Frage", "Erstellt am");
-                    System.out.println("------------------------------------------------------------------------");
+                    System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n", "ID", "Frage", "Erstellt am", "Counter", "Richtig gelernt", "Falsch gelernt", "Letztes mal gelernt am");
+                    System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------");
 
                     for (int ks = 0; ks < cards.size(); ks++) {
-                        currentCard = cards.get(ks);
+                        Card currentCard = cards.get(ks);
                         if (!currentCard.question.equals(" ")) {
-                            System.out.printf("%-5s | %-50s | %-95s%n",
+
+                            double correctPercent = (int) ((currentCard.correctCounter * 100.0) / currentCard.counter);
+                            double falsePercent = (int) ((currentCard.falseCounter * 100.0) / currentCard.counter);
+
+                            System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
                                     currentCard.id,
                                     currentCard.question,
-                                    currentCard.buildDate.toString());
+                                    currentCard.buildDate.toString(),
+                                    currentCard.counter,
+                                    correctPercent + "%",
+                                    falsePercent + "%",
+                                    currentCard.lastLearn
+                            );
+
                         }
                     }
-                } else {
-                    System.out.println("\u001B[31mGib close zum schliessen ein(ALLES KLEIN!)\u001B[0m");
                 }
-            }
 
+                if ("open".equals(input) || "Open".equals(input)) {
 
-            if ("Start Random".equals(input) || "Start random".equals(input) || "start random".equals(input)) {
+                    String number;
+                    System.out.print("ID: ");
+                    number = scanner.nextLine();
 
-                boolean continuing = true;
-                int randomTries = 1;
+                    int idNumber = Integer.parseInt(number, 10);
+                    int maxId = cards.size();
+                    if (idNumber > maxId) {
+                        System.out.printf("\u001B[31mDiese ID gibt es nicht, die höchste ID ist %d%n\u001B[0m", cards.size());
+                        continue;
+                    }
 
-                do {
-                    if (randomTries <= 1) {
-                        Random rand = new Random();
+                    Card currentCard = cards.stream()
+                            .filter(c -> c.id == idNumber)
+                            .findFirst()
+                            .orElse(null);
 
-                        int randomIndex;
-                        do {
-                            randomIndex = rand.nextInt(cards.size());
-                        } while (randomIndex == lastRandomIndex);
-
-                        Card currentCard = cards.get(randomIndex);
-                        lastRandomIndex = randomIndex;
-
-                        if (!currentCard.question.trim().equals("")) {
-                            System.out.println("Frage: " + currentCard.question);
-                            System.out.print("Antwort: ");
-                            Scanner newLearnAnswer = new Scanner(System.in);
-                            String answer1 = newLearnAnswer.nextLine();
-                            if (answer1.length() <= 251) {
-                                if (!answer1.equals(currentCard.answer)) {
-                                    System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
-                                } else {
-                                    System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
-                                }
-                            } else {
-                                System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
-                            }
-                        }
-                        randomTries++;
+                    if (currentCard != null) {
+                        System.out.printf("%-25s | %-95s%n", "Frage", "Antwort");
+                        System.out.println("------------------------------------");
+                        System.out.println(currentCard.question + " " + currentCard.answer);
                     } else {
+                        System.out.println("Karte nicht gefunden");
+                    }
+                    System.out.println("Zum schliessen eine beliebige Taste drücken und mit enter abschliessen: ");
+                    }
 
-                        System.out.println("`stop random` zum beenden enter drücken zum fortfahren");
-                        String randomContinue;
-                        randomContinue = scanner.nextLine();
 
-                        if ("Stop Random".equals(randomContinue) || "Stop random".equals(randomContinue) || "stop random".equals(randomContinue)) {
-                            break;
-                        } else {
+
+                if ("Start Random".equals(input) || "Start random".equals(input) || "start random".equals(input)) {
+
+
+                    int randomTries = 1;
+                    do {
+                        if (randomTries <= 1) {
                             Random rand = new Random();
 
                             int randomIndex;
@@ -376,32 +313,94 @@ public class ConsoleApp {
                             Card currentCard = cards.get(randomIndex);
                             lastRandomIndex = randomIndex;
 
-                            if (!currentCard.question.equals(" ")) {
+                            if (!currentCard.question.trim().equals("")) {
                                 System.out.println("Frage: " + currentCard.question);
                                 System.out.print("Antwort: ");
                                 Scanner newLearnAnswer = new Scanner(System.in);
                                 String answer1 = newLearnAnswer.nextLine();
                                 if (answer1.length() <= 251) {
                                     if (!answer1.equals(currentCard.answer)) {
-                                        System.out.println("\u001B[31mDie Antwort ist: \u001B[0m" + currentCard.answer);
+                                        System.out.println("\u001B[31mDie Antwort war leider falsch, die richtige antwort ist: \u001B[0m" + currentCard.answer);
+                                        currentCard.falseCounter++;
+                                        currentCard.counter++;
+                                        currentCard.lastLearn = LocalDate.now();
+                                        saveCardsToFile(flashCard, cards);
                                     } else {
                                         System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
+                                        currentCard.correctCounter++;
+                                        currentCard.counter++;
+                                        currentCard.lastLearn = LocalDate.now();
+                                        saveCardsToFile(flashCard, cards);
                                     }
                                 } else {
                                     System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
+                                    currentCard.falseCounter++;
+                                    currentCard.counter++;
+                                    currentCard.lastLearn = LocalDate.now();
+                                    saveCardsToFile(flashCard, cards);
                                 }
                             }
                             randomTries++;
+                        } else {
+
+                            System.out.println("`stop random` zum beenden enter drücken zum fortfahren");
+                            String randomContinue;
+                            randomContinue = scanner.nextLine();
+
+                            if ("Stop Random".equals(randomContinue) || "Stop random".equals(randomContinue) || "stop random".equals(randomContinue)) {
+                                System.out.println("\u001B[32mStart Random geschlossen\u001B[0m");
+                                break;
+                            } else if (!randomContinue.trim().equals("")){
+                                System.out.println("\u001B[31mBefehl nicht erkannt! Bitte überprüfe deine Schreibweise auf `stop random` und versuche es erneut.\u001B[0m");
+                            }
+                            else {
+                                Random rand = new Random();
+
+                                int randomIndex;
+                                do {
+                                    randomIndex = rand.nextInt(cards.size());
+                                } while (randomIndex == lastRandomIndex);
+
+                                Card currentCard = cards.get(randomIndex);
+                                lastRandomIndex = randomIndex;
+
+                                if (!currentCard.question.trim().equals("")) {
+                                    System.out.println("Frage: " + currentCard.question);
+                                    System.out.print("Antwort: ");
+                                    Scanner newLearnAnswer = new Scanner(System.in);
+                                    String answer1 = newLearnAnswer.nextLine();
+                                    if (answer1.length() <= 251) {
+                                        if (!answer1.equals(currentCard.answer)) {
+                                            System.out.println("\u001B[31mDie Antwort war leider falsch, die richtige antwort ist: \u001B[0m" + currentCard.answer);
+                                            currentCard.falseCounter++;
+                                            currentCard.counter++;
+                                            currentCard.lastLearn = LocalDate.now();
+                                            saveCardsToFile(flashCard, cards);
+                                        } else {
+                                            System.out.println("\u001B[32mDie Antwort ist richtig\u001B[0m");
+                                            currentCard.correctCounter++;
+                                            currentCard.counter++;
+                                            currentCard.lastLearn = LocalDate.now();
+                                            saveCardsToFile(flashCard, cards);
+                                        }
+                                    } else {
+                                        System.out.println("\u001B[31mZu lang, maximal 250 Zeichen!!!!\u001B[0m");
+                                        currentCard.falseCounter++;
+                                        currentCard.counter++;
+                                        currentCard.lastLearn = LocalDate.now();
+                                        saveCardsToFile(flashCard, cards);
+                                    }
+                                }
+                                randomTries++;
+                            }
                         }
-                    }
-                } while (continuing == true);
+                    } while (randomTries <100000);
+                }
+                if (!"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input) && !"Start Random".equals(input) && !"Start random".equals(input) && !"start random".equals(input)) {
 
-            if (!"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input)) {
-
-                System.out.println("\u001B[31mBefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
+                    System.out.println("\u001B[31mBefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
+                }
             }
         }
-    }
-}
-
+    }}
 
