@@ -131,7 +131,7 @@ public class ConsoleApp {
     }
 
     public static void main(String[] args) {
-        boolean startrandomcontinue = true;
+        boolean startRandomContinue = true;
         Scanner scanner = new Scanner(System.in);
 
 
@@ -293,7 +293,7 @@ public class ConsoleApp {
                         System.out.println("Karte nicht gefunden");
                     }
                     System.out.println("Zum Schliessen eine beliebige Taste drücken und mit enter abschliessen: ");
-                    }
+                }
 
 
                 if ("Start Random".equals(input) || "Start random".equals(input) || "start random".equals(input)) {
@@ -347,13 +347,12 @@ public class ConsoleApp {
                             randomContinue = scanner.nextLine();
 
                             if ("Stop Random".equals(randomContinue) || "Stop random".equals(randomContinue) || "stop random".equals(randomContinue)) {
-                                startrandomcontinue = false;
+                                startRandomContinue = false;
                                 System.out.println("\u001B[32mStart Random geschlossen\u001B[0m");
                                 break;
-                            } else if (!randomContinue.trim().equals("")){
+                            } else if (!randomContinue.trim().equals("")) {
                                 System.out.println("\u001B[31mBefehl nicht erkannt! Bitte überprüfe deine Schreibweise auf `stop random` und versuche es erneut.\u001B[0m");
-                            }
-                            else {
+                            } else {
                                 Random rand = new Random();
 
                                 int randomIndex;
@@ -394,7 +393,7 @@ public class ConsoleApp {
                                 randomTries++;
                             }
                         }
-                    } while (startrandomcontinue == true);
+                    } while (startRandomContinue == true);
                 }
                 if (!"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input) && !"Start Random".equals(input) && !"Start random".equals(input) && !"start random".equals(input)) {
 
@@ -402,5 +401,6 @@ public class ConsoleApp {
                 }
             }
         }
-    }}
+    }
+}
 
