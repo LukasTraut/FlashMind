@@ -216,6 +216,7 @@ public class ConsoleApp {
                     switch (sortby.nextLine()) {
                         case "sort id":
                             cards.sort(Comparator.comparing(card -> card.id));
+                            Collections.reverse(cards);
                             break;
                         case "sort builddate":
                             cards.sort(Comparator.comparing(card -> card.buildDate));
@@ -240,7 +241,6 @@ public class ConsoleApp {
 
 
                     }
-
                     System.out.println("Deine vorhandenen Karten...");
 
                     System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n", "ID", "Frage", "Erstellt am", "Counter", "Richtig gelernt", "Falsch gelernt", "Letztes mal gelernt am");
