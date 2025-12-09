@@ -30,12 +30,12 @@ public class ConsoleApp {
         public String answer;
         public LocalDate buildDate;
         public Integer counter;
-        public Integer correctCounter;
-        public Integer falseCounter;
+        public Double correctCounter;
+        public Double falseCounter;
         public LocalDate lastLearn;
 
 
-        public Card(String question, String answer, String dateString, int counter, int correctCounter, int falseCounter, String lastDate) {
+        public Card(String question, String answer, String dateString, int counter, double correctCounter, double falseCounter, String lastDate) {
             this.id = nextId++;
             this.question = question;
             this.answer = answer;
@@ -70,8 +70,8 @@ public class ConsoleApp {
                 String answer = "";
                 String buildDate = "";
                 int counter = 0;
-                int correctCounter = 0;
-                int falseCounter = 0;
+                double correctCounter = 0;
+                double falseCounter = 0;
                 String lastLearn = "";
 
                 for (String field : fields) {
@@ -84,8 +84,8 @@ public class ConsoleApp {
                     if (key.equals("answer")) answer = value;
                     if (key.equals("builddate")) buildDate = value;
                     if (key.equals("counter")) counter = Integer.parseInt(value);
-                    if (key.equals("correctcounter")) correctCounter = Integer.parseInt(value);
-                    if (key.equals("falsecounter")) falseCounter = Integer.parseInt(value);
+                    if (key.equals("correctcounter")) correctCounter = Double.parseDouble(value);
+                    if (key.equals("falsecounter")) falseCounter = Double.parseDouble(value);
                     if (key.equals("lastlearn")) lastLearn = value;
                 }
 
@@ -250,8 +250,13 @@ public class ConsoleApp {
                         Card currentCard = cards.get(ks);
                         if (!currentCard.question.equals(" ")) {
 
-                            double correctPercent = (int) ((currentCard.correctCounter * 100.0) / currentCard.counter);
-                            double falsePercent = (int) ((currentCard.falseCounter * 100.0) / currentCard.counter);
+                            double correctPercent = ((currentCard.correctCounter * 100.0) / currentCard.counter);
+                            double falsePercent = ((currentCard.falseCounter * 100.0) / currentCard.counter);
+
+
+                            correctPercent = Math.round(correctPercent * 10.0) / 10.0;
+                            falsePercent   = Math.round(falsePercent   * 10.0) / 10.0;
+
 
                             System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
                                     currentCard.id,
@@ -319,7 +324,7 @@ public class ConsoleApp {
                                 String answer1 = newLearnAnswer.nextLine();
                                 if (answer1.length() <= 251) {
                                     if (!answer1.equals(currentCard.answer)) {
-                                        System.out.println("\u001B[31mDie Antwort war leider falsch, die richtige antwort ist: \u001B[0m" + currentCard.answer);
+                                        System.out.println("\u001B[31mDie Antwort war leider falsch, die richtige Antwort ist: \u001B[0m" + currentCard.answer);
                                         currentCard.falseCounter++;
                                         currentCard.counter++;
                                         currentCard.lastLearn = LocalDate.now();
