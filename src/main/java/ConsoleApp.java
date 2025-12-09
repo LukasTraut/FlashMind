@@ -292,7 +292,7 @@ public class ConsoleApp {
                     } else {
                         System.out.println("Karte nicht gefunden");
                     }
-                    System.out.println("Zum schliessen eine beliebige Taste drücken und mit enter abschliessen: ");
+                    System.out.println("Zum Schliessen eine beliebige Taste drücken und mit enter abschliessen: ");
                     }
 
 
@@ -301,6 +301,7 @@ public class ConsoleApp {
 
 
                     int randomTries = 1;
+                    boolean startrandomcontinue = true;
                     do {
                         if (randomTries <= 1) {
                             Random rand = new Random();
@@ -349,6 +350,7 @@ public class ConsoleApp {
 
                             if ("Stop Random".equals(randomContinue) || "Stop random".equals(randomContinue) || "stop random".equals(randomContinue)) {
                                 System.out.println("\u001B[32mStart Random geschlossen\u001B[0m");
+                                startrandomcontinue = false;
                                 break;
                             } else if (!randomContinue.trim().equals("")){
                                 System.out.println("\u001B[31mBefehl nicht erkannt! Bitte überprüfe deine Schreibweise auf `stop random` und versuche es erneut.\u001B[0m");
@@ -394,7 +396,7 @@ public class ConsoleApp {
                                 randomTries++;
                             }
                         }
-                    } while (randomTries <100000);
+                    } while (startrandomcontinue == true);
                 }
                 if (!"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input) && !"Start Random".equals(input) && !"Start random".equals(input) && !"start random".equals(input)) {
 
