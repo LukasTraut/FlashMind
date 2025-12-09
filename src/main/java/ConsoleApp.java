@@ -146,9 +146,7 @@ public class ConsoleApp {
             int lastRandomIndex = 0;
 
             while (true) {
-                System.out.println("start random = Zufälliges Lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
-                System.out.println("open = Öffnen einer Lernkarte / show all = Alle anzeigen / exit = Programm schliessen");
-                System.out.println("learn = Lernkarte lernen / show all = Alle anzeigen / exit = Programm schliessen");
+                System.out.println("learn = Lernkarte lernen / start random = Zufälliges Lernen/ show all = Alle anzeigen/ open = Öffnen einer Lernkarte / exit = Programm schliessen");;
 
                 String input;
 
@@ -267,8 +265,26 @@ public class ConsoleApp {
 
                         }
                     }
-                }
+                    Scanner deletescanner = new Scanner(System.in);
+                    System.out.println("Delete zum löschen einer Lernkarte/ Enter zum fortfahren");
+                    if ("delete".equals(deletescanner.nextLine()) || "Delete".equals(deletescanner.nextLine())) {
+                        String deleteid;
+                        System.out.print("ID: ");
+                        deleteid = scanner.nextLine();
+                        int idDelete = Integer.parseInt(deleteid);
 
+                        Scanner finaldelete = new Scanner(System.in);
+                        System.out.println("Willst du die Lernkarte wirklich löschen? Yes/ No");
+
+                        if ("yes".equals(finaldelete.nextLine()) || "Yes".equals(finaldelete.nextLine())) {
+                            cards.remove(idDelete);
+                        } else if ("no".equals(finaldelete.nextLine()) || "No".equals(finaldelete.nextLine())) {
+                            System.out.println("Lernkarte wurde nicht gelöscht");
+                        } else {
+                            System.out.println("Befehl Yes / No wurde nicht erkannt");
+                        }
+                    }
+                }
                 if ("open".equals(input) || "Open".equals(input)) {
 
                     String number;
@@ -393,7 +409,7 @@ public class ConsoleApp {
                         }
                     } while (continuing == true);
 
-                    if (!"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input)) {
+                    if (!"exit".equals(input) && !"Exit".equals(input) && !"show all".equals(input) && !"Show all".equals(input) && !"open".equals(input) && !"Open".equals(input) && !"learn".equals(input) && !"Learn".equals(input) && !"Start Random".equals(input) && !"Start random".equals(input) && !"start random".equals(input)) {
 
                         System.out.println("\u001B[31mBefehl nicht erkannt! Bitte überprüfe die Schreibweise und versuche es erneut.\u001B[0m");
                     }
