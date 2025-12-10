@@ -29,13 +29,12 @@ public class ConsoleApp {
         public String question;
         public String answer;
         public LocalDate buildDate;
-        public Integer counter;
-        public Double correctCounter;
-        public Double falseCounter;
+        public int counter;
+        public int correctCounter;
+        public int falseCounter;
         public LocalDate lastLearn;
 
-
-        public Card(String question, String answer, String dateString, int counter, double correctCounter, double falseCounter, String lastDate) {
+        public Card(String question, String answer, String dateString, int counter, int correctCounter, int falseCounter, String lastDate) {
             this.id = nextId++;
             this.question = question;
             this.answer = answer;
@@ -46,6 +45,7 @@ public class ConsoleApp {
             this.lastLearn = LocalDate.parse(lastDate);
         }
     }
+
 
 
     public static List<Card> loadCardsFromFile(Path path) {
@@ -70,8 +70,8 @@ public class ConsoleApp {
                 String answer = "";
                 String buildDate = "";
                 int counter = 0;
-                double correctCounter = 0;
-                double falseCounter = 0;
+                int correctCounter = 0;
+                int falseCounter = 0;
                 String lastLearn = "";
 
                 for (String field : fields) {
@@ -84,8 +84,8 @@ public class ConsoleApp {
                     if (key.equals("answer")) answer = value;
                     if (key.equals("builddate")) buildDate = value;
                     if (key.equals("counter")) counter = Integer.parseInt(value);
-                    if (key.equals("correctcounter")) correctCounter = Double.parseDouble(value);
-                    if (key.equals("falsecounter")) falseCounter = Double.parseDouble(value);
+                    if (key.equals("correctcounter")) correctCounter = (int) Double.parseDouble(value);
+                    if (key.equals("falsecounter")) falseCounter = (int) Double.parseDouble(value);
                     if (key.equals("lastlearn")) lastLearn = value;
                 }
 
@@ -95,6 +95,7 @@ public class ConsoleApp {
             }
         } catch (Exception e) {
             System.out.println("Fehler beim Laden der JSON-Datei: " + e.getMessage());
+            System.exit(1);
         }
 
         return cards;
@@ -250,12 +251,19 @@ public class ConsoleApp {
                         Card currentCard = cards.get(ks);
                         if (!currentCard.question.equals(" ")) {
 
-                            double correctPercent = ((currentCard.correctCounter * 100.0) / currentCard.counter);
-                            double falsePercent = ((currentCard.falseCounter * 100.0) / currentCard.counter);
 
+                            double correctPercent = 0.0; // primitive double
+                            double falsePercent   = 0.0;
 
-                            correctPercent = Math.round(correctPercent * 10.0) / 10.0;
-                            falsePercent   = Math.round(falsePercent   * 10.0) / 10.0;
+                            if (currentCard.counter > 0) {
+                                // ACHTUNG: mind. ein double in der Rechnung, damit kein int-division!
+                                correctPercent = (currentCard.correctCounter * 100.0) / currentCard.counter;
+                                falsePercent   = (currentCard.falseCounter   * 100.0) / currentCard.counter;
+
+                                // Runden auf 1 Nachkommastelle: 1.29 -> 1.3
+                                correctPercent = Math.round(correctPercent * 10.0) / 10.0;
+                                falsePercent   = Math.round(falsePercent   * 10.0) / 10.0;
+                            }
 
 
                             System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
@@ -408,4 +416,3 @@ public class ConsoleApp {
         }
     }
 }
-
