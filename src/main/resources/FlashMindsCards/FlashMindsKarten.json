@@ -1,8 +1,19 @@
 [
 {
-"id": 6,
-"question": "Welche fare hat eine Mango",
+"id": 8,
+"question": "Welche Farbe hat eine Mango?",
 "answer": "Gelb",
+"builddate": "2025-06-08",
+"counter": 2,
+"correctcounter": 0,
+"falsecounter": 2,
+"lastlearn": "2025-11-25"
+}
+,
+{
+"id": 6,
+"question": "Welche Farbe hat eine Weintraube?",
+"answer": "Grün",
 "builddate": "2025-06-08",
 "counter": 2,
 "correctcounter": 0,
@@ -37,10 +48,10 @@
 "question": "Wann wurde Eintracht Frankfurt Deutscher Meister?",
 "answer": "1959",
 "builddate": "2025-04-05",
-"counter": 5,
+"counter": 6,
 "correctcounter": 3,
-"falsecounter": 1,
-"lastlearn": "2025-11-25"
+"falsecounter": 2,
+"lastlearn": "2025-12-11"
 }
 ,
 {

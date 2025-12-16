@@ -267,7 +267,58 @@ public class ConsoleApp {
 
                         }
                     }
+                    Scanner editscanner = new Scanner(System.in);
+                    System.out.println("Edit zum bearbeiten einer Lernkarte/ Enter zum fortfahren");
+                    if ("Edit".equals(editscanner.nextLine()) || "edit".equals(editscanner.nextLine())) {
+                        System.out.print("ID: ");
+                        String editId = scanner.nextLine();
+                        int idEdit = Integer.parseInt(editId);
+
+                        Card currentCard = null;
+                        for (Card c : cards) {
+                            if (c.id == idEdit) {
+                                currentCard = c;
+                                break;
+                            }
+                        }
+
+                        System.out.println("Aktuelle Frage: " + currentCard.question);
+                        String newQuestion = scanner.nextLine();
+
+
+                        System.out.println("Aktuelle Antwort: " + currentCard.answer);
+                        String newAnswer = scanner.nextLine();
+
+
+                        System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " +  newAnswer);
+                        System.out.println("Bestätigen Ja / Nein / Edit");
+                        Scanner aprove = new Scanner(System.in);
+
+                        if ("ja".equals(aprove.nextLine()) || "Ja".equals(aprove.nextLine())) {
+                            currentCard.question = newQuestion;
+                            currentCard.answer = newAnswer;
+                            saveCardsToFile(flashCard, cards);
+                            System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
+                        } else if ("Edit".equals(aprove.nextLine()) || "edit".equals(aprove.nextLine())) {
+
+                            System.out.print("Bist im Edit");
+                            System.out.println("Aktuelle Frage: " + currentCard.question);
+                            System.out.println("Aktuelle Antwort: " + currentCard.answer);
+                            currentCard.question = newQuestion;
+                            currentCard.answer = newAnswer;
+                            saveCardsToFile(flashCard, cards);
+                            System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
+
+                        } else {
+                            System.out.println("Lernkarte wurde nicht geändert");
+                        }
+
+                    } else {
+                        System.out.println("Lernkarte wurde nicht geandert");
+                    }
                 }
+
+
 
                 if ("open".equals(input) || "Open".equals(input)) {
 
