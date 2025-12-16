@@ -300,22 +300,130 @@ public class ConsoleApp {
                             currentCard.answer = newAnswer;
                             saveCardsToFile(flashCard, cards);
                             System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
+
+                            for (int ks = 0; ks < cards.size(); ks++) {
+                                 currentCard = cards.get(ks);
+                                if (!currentCard.question.equals(" ")) {
+
+                                    System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                            currentCard.id,
+                                            currentCard.question,
+                                            currentCard.buildDate.toString(),
+                                            currentCard.counter,
+                                            currentCard.correctCounter,
+                                            currentCard.falseCounter,
+                                            currentCard.lastLearn
+                                    );
+
+                                }
+                            }
                         } else if ("Edit".equals(aproved) || "edit".equals(aproved)) {
 
-                            System.out.print("Bist im Edit");
-                            System.out.println("Aktuelle Frage: " + currentCard.question);
-                            System.out.println("Aktuelle Antwort: " + currentCard.answer);
-                            currentCard.question = newQuestion;
-                            currentCard.answer = newAnswer;
-                            saveCardsToFile(flashCard, cards);
-                            System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
+                            for (Card c : cards) {
+                                if (c.id == idEdit) {
+                                    currentCard = c;
+                                    break;
+                                }
+                            }
+
+                            System.out.println("Aktuelle Frage: " + newQuestion);
+                            String newQuestion2 = scanner.nextLine();
+
+
+                            System.out.println("Aktuelle Antwort: " + newAnswer);
+                            String newAnswer2 = scanner.nextLine();
+
+
+                            System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " +  newAnswer);
+
+                            System.out.println("Bestätigen Ja / Nein");
+                            Scanner aprove2 = new Scanner(System.in);
+                            String aproved2 = aprove2.nextLine();
+                            if ("Ja".equals(aproved2) || "ja".equals(aproved2)) {
+                                currentCard.question = newQuestion2;
+                                currentCard.answer = newAnswer2;
+                                saveCardsToFile(flashCard, cards);
+                                System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
+
+                                for (int ks = 0; ks < cards.size(); ks++) {
+                                     currentCard = cards.get(ks);
+                                    if (!currentCard.question.equals(" ")) {
+
+                                        System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                                currentCard.id,
+                                                currentCard.question,
+                                                currentCard.buildDate.toString(),
+                                                currentCard.counter,
+                                                currentCard.correctCounter,
+                                                currentCard.falseCounter,
+                                                currentCard.lastLearn
+                                        );
+
+                                    }
+                                }
+                            } else{
+                                System.out.println("Lernkarte wurde nicht geändert");
+
+                                for (int ks = 0; ks < cards.size(); ks++) {
+                                     currentCard = cards.get(ks);
+                                    if (!currentCard.question.equals(" ")) {
+
+                                        System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                                currentCard.id,
+                                                currentCard.question,
+                                                currentCard.buildDate.toString(),
+                                                currentCard.counter,
+                                                currentCard.correctCounter,
+                                                currentCard.falseCounter,
+                                                currentCard.lastLearn
+                                        );
+
+                                    }
+                                }
+
+                            }
 
                         } else {
                             System.out.println("Lernkarte wurde nicht geändert");
+
+                            for (int ks = 0; ks < cards.size(); ks++) {
+                                 currentCard = cards.get(ks);
+                                if (!currentCard.question.equals(" ")) {
+
+                                    System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                            currentCard.id,
+                                            currentCard.question,
+                                            currentCard.buildDate.toString(),
+                                            currentCard.counter,
+                                            currentCard.correctCounter,
+                                            currentCard.falseCounter,
+                                            currentCard.lastLearn
+                                    );
+
+                                }
+                            }
                         }
 
                     } else {
                         System.out.println("Lernkarte wurde nicht geandert");
+
+                        for (int ks = 0; ks < cards.size(); ks++) {
+                            Card currentCard = cards.get(ks);
+                            if (!currentCard.question.equals(" ")) {
+
+                                System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                        currentCard.id,
+                                        currentCard.question,
+                                        currentCard.buildDate.toString(),
+                                        currentCard.counter,
+                                        currentCard.correctCounter,
+                                        currentCard.falseCounter,
+                                        currentCard.lastLearn
+                                );
+
+                            }
+                        }
+
                     }
                 }
 
