@@ -1,13 +1,24 @@
 [
 {
+"id": 7,
+"question": "Mit welchen Zeichen wird in Java ein Block eingeschlossen?",
+"answer": "Mit \\: geht jetzt doch",
+"builddate": "2025-06-08",
+"counter": 87,
+"correctcounter": 0,
+"falsecounter": 87,
+"lastlearn": "2025-12-09"
+}
+,
+{
 "id": 6,
 "question": "Welche fare hat eine Mango",
 "answer": "Gelb",
 "builddate": "2025-06-08",
-"counter": 2,
+"counter": 14,
 "correctcounter": 0,
-"falsecounter": 2,
-"lastlearn": "2025-11-25"
+"falsecounter": 14,
+"lastlearn": "2025-12-16"
 }
 ,
 {
@@ -15,10 +26,10 @@
 "question": "Welche Farbe hat eine Erdbeere",
 "answer": "Rot",
 "builddate": "2025-05-08",
-"counter": 1,
-"correctcounter": 0,
-"falsecounter": 1,
-"lastlearn": "2025-11-19"
+"counter": 12,
+"correctcounter": 1,
+"falsecounter": 11,
+"lastlearn": "2025-12-09"
 }
 ,
 {
@@ -26,10 +37,10 @@
 "question": "Welche Farbe hat eine Heidelbeere?",
 "answer": "Blau",
 "builddate": "2025-01-05",
-"counter": 3,
-"correctcounter": 0,
-"falsecounter": 2,
-"lastlearn": "2025-11-25"
+"counter": 14,
+"correctcounter": 4,
+"falsecounter": 10,
+"lastlearn": "2025-12-09"
 }
 ,
 {
@@ -37,10 +48,10 @@
 "question": "Wann wurde Eintracht Frankfurt Deutscher Meister?",
 "answer": "1959",
 "builddate": "2025-04-05",
-"counter": 5,
-"correctcounter": 3,
-"falsecounter": 1,
-"lastlearn": "2025-11-25"
+"counter": 24,
+"correctcounter": 6,
+"falsecounter": 18,
+"lastlearn": "2025-12-09"
 }
 ,
 {
@@ -48,10 +59,10 @@
 "question": "Wie heisst die schönste Stadt auf der Welt?",
 "answer": "Frankfurt",
 "builddate": "2025-09-05",
-"counter": 6,
-"correctcounter": 3,
-"falsecounter": 0,
-"lastlearn": "2025-11-19"
+"counter": 14,
+"correctcounter": 6,
+"falsecounter": 8,
+"lastlearn": "2025-12-09"
 }
 ,
 {
@@ -59,10 +70,10 @@
 "question": "Wann wurde Frankfurt gegründet?",
 "answer": "1899",
 "builddate": "2025-09-04",
-"counter": 13,
-"correctcounter": 4,
-"falsecounter": 3,
-"lastlearn": "2025-11-25"
+"counter": 26,
+"correctcounter": 10,
+"falsecounter": 16,
+"lastlearn": "2025-12-09"
 }
 
 ]
