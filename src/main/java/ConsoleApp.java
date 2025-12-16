@@ -84,8 +84,8 @@ public class ConsoleApp {
                     if (key.equals("answer")) answer = value;
                     if (key.equals("builddate")) buildDate = value;
                     if (key.equals("counter")) counter = Integer.parseInt(value);
-                    if (key.equals("correctcounter")) correctCounter = (int) Double.parseDouble(value);
-                    if (key.equals("falsecounter")) falseCounter = (int) Double.parseDouble(value);
+                    if (key.equals("correctcounter")) correctCounter = Integer.parseInt(value);
+                    if (key.equals("falsecounter")) falseCounter = Integer.parseInt(value);
                     if (key.equals("lastlearn")) lastLearn = value;
                 }
 
