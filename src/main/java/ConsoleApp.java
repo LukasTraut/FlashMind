@@ -269,7 +269,8 @@ public class ConsoleApp {
                     }
                     Scanner editscanner = new Scanner(System.in);
                     System.out.println("Edit zum bearbeiten einer Lernkarte/ Enter zum fortfahren");
-                    if ("Edit".equals(editscanner.nextLine()) || "edit".equals(editscanner.nextLine())) {
+                    String edit = editscanner.nextLine();
+                    if ("Edit".equals(edit) || "edit".equals(edit)) {
                         System.out.print("ID: ");
                         String editId = scanner.nextLine();
                         int idEdit = Integer.parseInt(editId);
@@ -293,13 +294,13 @@ public class ConsoleApp {
                         System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " +  newAnswer);
                         System.out.println("Bestätigen Ja / Nein / Edit");
                         Scanner aprove = new Scanner(System.in);
-
-                        if ("ja".equals(aprove.nextLine()) || "Ja".equals(aprove.nextLine())) {
+                        String aproved = aprove.nextLine();
+                        if ("Ja".equals(aproved) || "ja".equals(aproved)) {
                             currentCard.question = newQuestion;
                             currentCard.answer = newAnswer;
                             saveCardsToFile(flashCard, cards);
                             System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
-                        } else if ("Edit".equals(aprove.nextLine()) || "edit".equals(aprove.nextLine())) {
+                        } else if ("Edit".equals(aproved) || "edit".equals(aproved)) {
 
                             System.out.print("Bist im Edit");
                             System.out.println("Aktuelle Frage: " + currentCard.question);
