@@ -212,10 +212,10 @@ public class ConsoleApp {
 
                 if ("show all".equals(input) || "Show all".equals(input) || "Show All".equals(input)) {
 
-                    Scanner sortby = new Scanner(System.in);
+                    Scanner sortBy = new Scanner(System.in);
                     System.out.println("Sortieren nach: sort id/ sort builddate/ sort best/ sort worst/ sort latest/ sort refresh");
 
-                    switch (sortby.nextLine()) {
+                    switch (sortBy.nextLine()) {
                         case "sort id":
                             cards.sort(Comparator.comparing(card -> card.id));
                             Collections.reverse(cards);
@@ -279,9 +279,9 @@ public class ConsoleApp {
 
                         }
                     }
-                    Scanner deletescanner = new Scanner(System.in);
+                    Scanner deleteScanner = new Scanner(System.in);
                     System.out.println("Delete zum Löschen einer Lernkarte/ Enter zum fortfahren");
-                    String delete = deletescanner.nextLine();
+                    String delete = deleteScanner.nextLine();
                     if ("delete".equals(delete) || "Delete".equals(delete)) {
                         String deleteId;
                         System.out.print("ID: ");
