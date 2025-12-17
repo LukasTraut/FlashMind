@@ -149,6 +149,7 @@ public class ConsoleApp {
                 System.out.println("start random = Zufälliges Lernen/ show all = Alle anzeigen/ exit = Programm schliessen");
                 System.out.println("open = Öffnen einer Lernkarte / show all = Alle anzeigen / exit = Programm schliessen");
                 System.out.println("learn = Lernkarte lernen / show all = Alle anzeigen / exit = Programm schliessen");
+                System.out.println("add = Lernkarte hinzufügen / show all = Alle anzeigen / exit = Programm schliessen");
 
                 String input;
 
@@ -320,7 +321,67 @@ public class ConsoleApp {
                     }
                 }
 
+                if ("add".equals(input) || "Add".equals(input)) {
 
+                    System.out.println("Gib eine Frage ein");
+                    System.out.print("> ");
+                    String questionAdd = scanner.nextLine();
+                    System.out.println("Gib die Antwort ein");
+                    System.out.print("> ");
+                    String answerAdd = scanner.nextLine();
+
+                    System.out.println("Hinzugefügte Frage: " + questionAdd + " / Hinzugefügte Antwort: " + answerAdd);
+
+
+                    System.out.println("Bestätigen Save / Edit");
+                    Scanner save = new Scanner(System.in);
+                    String saved = save.nextLine();
+                    Card currentCard = null;
+                    if ("Save".equals(saved) || "save".equals(saved)) {
+                        currentCard.id = nextId;
+                        currentCard.question = questionAdd;
+                        currentCard.answer = answerAdd;
+                        currentCard.buildDate = LocalDate.of(0000, 0, 0);
+                        currentCard.counter = 0;
+                        currentCard.correctCounter = 0;
+                        currentCard.falseCounter = 0;
+                        currentCard.lastLearn = null;
+
+                        saveCardsToFile(flashCard, cards);
+                        System.out.println("Lernkarte wurde gespeichert");
+                    }
+                    else if ("Edit".equals(saved) || "edit".equals(saved)) {
+
+                        System.out.println("Aktuelle Frage: " + questionAdd);
+                        String newQuestion = scanner.nextLine();
+
+                        System.out.println("Aktuelle Antwort: " + answerAdd);
+                        String newAnswer = scanner.nextLine();
+
+                        System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " +  newAnswer);
+
+                        System.out.println("Möchtest du speichern? Save / Nein");
+                        Scanner save2 = new Scanner(System.in);
+                        String saved2 = save2.nextLine();
+                        if ("Save".equals(saved2) || "save".equals(saved2)) {
+                            currentCard.id = nextId;
+                            currentCard.question = newQuestion;
+                            currentCard.answer = newAnswer;
+                            currentCard.buildDate = LocalDate.of(0000, 0, 0);
+                            currentCard.counter = 0;
+                            currentCard.correctCounter = 0;
+                            currentCard.falseCounter = 0;
+                            currentCard.lastLearn = null;
+
+                            saveCardsToFile(flashCard, cards);
+                            System.out.println("Lernkarte wurde gespeichert");
+                    }
+                        else {
+                            System.out.println("Lernkarte wurde nicht geändert und nicht gespeichert");
+
+                        }
+                    }
+                }
                 if ("Start Random".equals(input) || "Start random".equals(input) || "start random".equals(input)) {
 
                     boolean continuing = true;
