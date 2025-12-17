@@ -267,13 +267,13 @@ public class ConsoleApp {
                             }
 
 
-                            System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                            System.out.printf("%-5s | %-50s | %-20s | %-15s | %15s%% | %15s%% | %-30s%n",
                                     currentCard.id,
                                     currentCard.question,
                                     currentCard.buildDate.toString(),
                                     currentCard.counter,
-                                    correctPercent + "%",
-                                    falsePercent + "%",
+                                    correctPercent,
+                                    falsePercent,
                                     currentCard.lastLearn
                             );
 
