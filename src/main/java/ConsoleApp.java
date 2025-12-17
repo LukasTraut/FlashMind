@@ -215,10 +215,10 @@ public class ConsoleApp {
 
                 if ("show all".equals(input) || "Show all".equals(input) || "Show All".equals(input)) {
 
-                    Scanner sortby = new Scanner(System.in);
+                    Scanner sortBy = new Scanner(System.in);
                     System.out.println("Sortieren nach: sort id/ sort builddate/ sort best/ sort worst/ sort latest/ sort refresh");
 
-                    switch (sortby.nextLine()) {
+                    switch (sortBy.nextLine()) {
                         case "sort id":
                             cards.sort(Comparator.comparing(card -> card.id));
                             Collections.reverse(cards);
@@ -267,9 +267,9 @@ public class ConsoleApp {
 
                         }
                     }
-                    Scanner editscanner = new Scanner(System.in);
+                    Scanner editScanner = new Scanner(System.in);
                     System.out.println("Edit zum bearbeiten einer Lernkarte/ Enter zum fortfahren");
-                    String edit = editscanner.nextLine();
+                    String edit = editScanner.nextLine();
                     if ("Edit".equals(edit) || "edit".equals(edit)) {
                         System.out.print("ID: ");
                         String editId = scanner.nextLine();
@@ -291,7 +291,7 @@ public class ConsoleApp {
                         String newAnswer = scanner.nextLine();
 
 
-                        System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " +  newAnswer);
+                        System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " + newAnswer);
                         System.out.println("Bestätigen Ja / Nein / Edit");
                         Scanner aprove = new Scanner(System.in);
                         String aproved = aprove.nextLine();
@@ -302,7 +302,7 @@ public class ConsoleApp {
                             System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
 
                             for (int ks = 0; ks < cards.size(); ks++) {
-                                 currentCard = cards.get(ks);
+                                currentCard = cards.get(ks);
                                 if (!currentCard.question.equals(" ")) {
 
                                     System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
@@ -334,7 +334,7 @@ public class ConsoleApp {
                             String newAnswer2 = scanner.nextLine();
 
 
-                            System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " +  newAnswer);
+                            System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " + newAnswer);
 
                             System.out.println("Bestätigen Ja / Nein");
                             Scanner aprove2 = new Scanner(System.in);
@@ -346,7 +346,7 @@ public class ConsoleApp {
                                 System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
 
                                 for (int ks = 0; ks < cards.size(); ks++) {
-                                     currentCard = cards.get(ks);
+                                    currentCard = cards.get(ks);
                                     if (!currentCard.question.equals(" ")) {
 
                                         System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
@@ -361,11 +361,11 @@ public class ConsoleApp {
 
                                     }
                                 }
-                            } else{
+                            } else {
                                 System.out.println("Lernkarte wurde nicht geändert");
 
                                 for (int ks = 0; ks < cards.size(); ks++) {
-                                     currentCard = cards.get(ks);
+                                    currentCard = cards.get(ks);
                                     if (!currentCard.question.equals(" ")) {
 
                                         System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
@@ -387,7 +387,7 @@ public class ConsoleApp {
                             System.out.println("Lernkarte wurde nicht geändert");
 
                             for (int ks = 0; ks < cards.size(); ks++) {
-                                 currentCard = cards.get(ks);
+                                currentCard = cards.get(ks);
                                 if (!currentCard.question.equals(" ")) {
 
                                     System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
@@ -426,7 +426,6 @@ public class ConsoleApp {
 
                     }
                 }
-
 
 
                 if ("open".equals(input) || "Open".equals(input)) {
