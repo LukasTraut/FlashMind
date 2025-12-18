@@ -279,6 +279,167 @@ public class ConsoleApp {
 
                         }
                     }
+                    Scanner editScanner = new Scanner(System.in);
+                    System.out.println("Edit zum bearbeiten einer Lernkarte/ Enter zum fortfahren");
+                    String edit = editScanner.nextLine();
+                    if ("Edit".equals(edit) || "edit".equals(edit)) {
+                        System.out.print("ID: ");
+                        String editId = scanner.nextLine();
+                        int idEdit = Integer.parseInt(editId);
+
+                        Card currentCard = null;
+                        for (Card c : cards) {
+                            if (c.id == idEdit) {
+                                currentCard = c;
+                                break;
+                            }
+                        }
+
+                        System.out.println("Aktuelle Frage: " + currentCard.question);
+                        String newQuestion = scanner.nextLine();
+
+
+                        System.out.println("Aktuelle Antwort: " + currentCard.answer);
+                        String newAnswer = scanner.nextLine();
+
+
+                        System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " + newAnswer);
+                        System.out.println("Bestätigen Ja / Nein / Edit");
+                        Scanner aprove = new Scanner(System.in);
+                        String aproved = aprove.nextLine();
+                        if ("Ja".equals(aproved) || "ja".equals(aproved)) {
+                            currentCard.question = newQuestion;
+                            currentCard.answer = newAnswer;
+                            saveCardsToFile(flashCard, cards);
+                            System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
+
+                            for (int ks = 0; ks < cards.size(); ks++) {
+                                currentCard = cards.get(ks);
+                                if (!currentCard.question.equals(" ")) {
+
+                                    System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                            currentCard.id,
+                                            currentCard.question,
+                                            currentCard.buildDate.toString(),
+                                            currentCard.counter,
+                                            currentCard.correctCounter,
+                                            currentCard.falseCounter,
+                                            currentCard.lastLearn
+                                    );
+
+                                }
+                            }
+                        } else if ("Edit".equals(aproved) || "edit".equals(aproved)) {
+
+                            for (Card c : cards) {
+                                if (c.id == idEdit) {
+                                    currentCard = c;
+                                    break;
+                                }
+                            }
+
+                            System.out.println("Aktuelle Frage: " + newQuestion);
+                            String newQuestion2 = scanner.nextLine();
+
+
+                            System.out.println("Aktuelle Antwort: " + newAnswer);
+                            String newAnswer2 = scanner.nextLine();
+
+
+                            System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " + newAnswer);
+
+                            System.out.println("Bestätigen Ja / Nein");
+                            Scanner aprove2 = new Scanner(System.in);
+                            String aproved2 = aprove2.nextLine();
+                            if ("Ja".equals(aproved2) || "ja".equals(aproved2)) {
+                                currentCard.question = newQuestion2;
+                                currentCard.answer = newAnswer2;
+                                saveCardsToFile(flashCard, cards);
+                                System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
+
+                                for (int ks = 0; ks < cards.size(); ks++) {
+                                    currentCard = cards.get(ks);
+                                    if (!currentCard.question.equals(" ")) {
+
+                                        System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                                currentCard.id,
+                                                currentCard.question,
+                                                currentCard.buildDate.toString(),
+                                                currentCard.counter,
+                                                currentCard.correctCounter,
+                                                currentCard.falseCounter,
+                                                currentCard.lastLearn
+                                        );
+
+                                    }
+                                }
+                            } else {
+                                System.out.println("Lernkarte wurde nicht geändert");
+
+                                for (int ks = 0; ks < cards.size(); ks++) {
+                                    currentCard = cards.get(ks);
+                                    if (!currentCard.question.equals(" ")) {
+
+                                        System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                                currentCard.id,
+                                                currentCard.question,
+                                                currentCard.buildDate.toString(),
+                                                currentCard.counter,
+                                                currentCard.correctCounter,
+                                                currentCard.falseCounter,
+                                                currentCard.lastLearn
+                                        );
+
+                                    }
+                                }
+
+                            }
+
+                        } else {
+                            System.out.println("Lernkarte wurde nicht geändert");
+
+                            for (int ks = 0; ks < cards.size(); ks++) {
+                                currentCard = cards.get(ks);
+                                if (!currentCard.question.equals(" ")) {
+
+                                    System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                            currentCard.id,
+                                            currentCard.question,
+                                            currentCard.buildDate.toString(),
+                                            currentCard.counter,
+                                            currentCard.correctCounter,
+                                            currentCard.falseCounter,
+                                            currentCard.lastLearn
+                                    );
+
+                                }
+                            }
+                        }
+
+                    } else {
+                        System.out.println("Lernkarte wurde nicht geandert");
+
+                        for (int ks = 0; ks < cards.size(); ks++) {
+                            Card currentCard = cards.get(ks);
+                            if (!currentCard.question.equals(" ")) {
+
+                                System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                        currentCard.id,
+                                        currentCard.question,
+                                        currentCard.buildDate.toString(),
+                                        currentCard.counter,
+                                        currentCard.correctCounter,
+                                        currentCard.falseCounter,
+                                        currentCard.lastLearn
+                                );
+
+                            }
+                        }
+
+                    }
+                }
+
+
                     Scanner deleteScanner = new Scanner(System.in);
                     System.out.println("Delete zum Löschen einer Lernkarte/ Enter zum fortfahren");
                     String delete = deleteScanner.nextLine();
