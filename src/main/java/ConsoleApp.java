@@ -24,7 +24,7 @@ public class ConsoleApp {
 
     static int nextId = 0;
 
-    public class Card {
+    public static class Card {
         public int id;
         public String question;
         public String answer;
@@ -34,7 +34,7 @@ public class ConsoleApp {
         public Integer falseCounter;
         public LocalDate lastLearn;
 
-
+        public Card(){}
         public Card(String question, String answer, String dateString, int counter, int correctCounter, int falseCounter, String lastDate) {
             this.id = nextId++;
             this.question = question;
@@ -89,7 +89,7 @@ public class ConsoleApp {
                     if (key.equals("lastlearn")) lastLearn = value;
                 }
 
-                Card card = new ConsoleApp().new Card(question, answer, buildDate, counter, correctCounter, falseCounter, lastLearn);
+                Card card = new Card(question, answer, buildDate, counter, correctCounter, falseCounter, lastLearn);
                 card.id = id;
                 cards.add(card);
             }
@@ -134,6 +134,7 @@ public class ConsoleApp {
 
     public static void main(String[] args) {
 
+
         Scanner scanner = new Scanner(System.in);
 
 
@@ -177,7 +178,7 @@ public class ConsoleApp {
                             break;
                         }
                     }
-                    int maxId = cards.size();
+                    int maxId = currentCard.id;
                     if (idNumber > maxId) {
                         System.out.printf("\u001B[31mEs sind nur %d Karten vorhanden.%n\u001B[0m", cards.size());
                         continue;
@@ -323,6 +324,10 @@ public class ConsoleApp {
 
                 if ("add".equals(input) || "Add".equals(input)) {
 
+                    System.out.println("Gib eine ID ein");
+                    System.out.print("> ");
+                    String idAddstring = scanner.nextLine();
+                    int idAdd = Integer.parseInt(idAddstring);
                     System.out.println("Gib eine Frage ein");
                     System.out.print("> ");
                     String questionAdd = scanner.nextLine();
@@ -336,19 +341,52 @@ public class ConsoleApp {
                     System.out.println("Bestätigen Save / Edit");
                     Scanner save = new Scanner(System.in);
                     String saved = save.nextLine();
-                    Card currentCard = null;
+
                     if ("Save".equals(saved) || "save".equals(saved)) {
-                        currentCard.id = nextId;
-                        currentCard.question = questionAdd;
-                        currentCard.answer = answerAdd;
-                        currentCard.buildDate = LocalDate.of(0000, 0, 0);
-                        currentCard.counter = 0;
-                        currentCard.correctCounter = 0;
-                        currentCard.falseCounter = 0;
-                        currentCard.lastLearn = null;
+
+                        for (Card c : cards) {
+                            if (c.id == idAdd) {
+                                System.out.println("Diese ID ist bereits vergeben.");
+                                return;
+                            }
+                        }
+
+                        Card newCard = new Card();
+                        newCard.id = idAdd;
+                        newCard.question = questionAdd;
+                        newCard.answer = answerAdd;
+                        newCard.buildDate = java.time.LocalDate.now();
+                        newCard.counter = 0;
+                        newCard.correctCounter = 0;
+                        newCard.falseCounter = 0;
+                        newCard.lastLearn = java.time.LocalDate.now();
+
+                        cards.add(newCard);
 
                         saveCardsToFile(flashCard, cards);
                         System.out.println("Lernkarte wurde gespeichert");
+
+                        System.out.println("Deine vorhandenen Karten...");
+
+                        System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n", "ID", "Frage", "Erstellt am", "Counter", "Richtig gelernt", "Falsch gelernt", "Letztes mal gelernt am");
+                        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+                        for (int ks = 0; ks < cards.size(); ks++) {
+                            Card currentCard = cards.get(ks);
+                            if (!currentCard.question.equals(" ")) {
+
+                                System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                        currentCard.id,
+                                        currentCard.question,
+                                        currentCard.buildDate.toString(),
+                                        currentCard.counter,
+                                        currentCard.correctCounter,
+                                        currentCard.falseCounter,
+                                        currentCard.lastLearn
+                                );
+
+                            }
+                        }
                     }
                     else if ("Edit".equals(saved) || "edit".equals(saved)) {
 
@@ -364,22 +402,58 @@ public class ConsoleApp {
                         Scanner save2 = new Scanner(System.in);
                         String saved2 = save2.nextLine();
                         if ("Save".equals(saved2) || "save".equals(saved2)) {
-                            currentCard.id = nextId;
-                            currentCard.question = newQuestion;
-                            currentCard.answer = newAnswer;
-                            currentCard.buildDate = LocalDate.of(0000, 0, 0);
-                            currentCard.counter = 0;
-                            currentCard.correctCounter = 0;
-                            currentCard.falseCounter = 0;
-                            currentCard.lastLearn = null;
+                            for (Card c : cards) {
+                                if (c.id == idAdd) {
+                                    System.out.println("Diese ID ist bereits vergeben.");
+                                    return;
+                                }
+                            }
+
+                            Card newCard = new Card();
+                            newCard.id = idAdd;
+                            newCard.question = questionAdd;
+                            newCard.answer = answerAdd;
+                            newCard.buildDate = java.time.LocalDate.now();
+                            newCard.counter = 0;
+                            newCard.correctCounter = 0;
+                            newCard.falseCounter = 0;
+                            newCard.lastLearn = java.time.LocalDate.now();
+
+                            cards.add(newCard);
 
                             saveCardsToFile(flashCard, cards);
                             System.out.println("Lernkarte wurde gespeichert");
-                    }
+
+                            System.out.println("Deine vorhandenen Karten...");
+
+                            System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n", "ID", "Frage", "Erstellt am", "Counter", "Richtig gelernt", "Falsch gelernt", "Letztes mal gelernt am");
+                            System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+                            for (int ks = 0; ks < cards.size(); ks++) {
+                                Card currentCard = cards.get(ks);
+                                if (!currentCard.question.equals(" ")) {
+
+                                    System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                                            currentCard.id,
+                                            currentCard.question,
+                                            currentCard.buildDate.toString(),
+                                            currentCard.counter,
+                                            currentCard.correctCounter,
+                                            currentCard.falseCounter,
+                                            currentCard.lastLearn
+                                    );
+
+                                }
+                            }
+                        }
                         else {
                             System.out.println("Lernkarte wurde nicht geändert und nicht gespeichert");
 
                         }
+                    }
+                    else {
+                        System.out.println("Lernkarte wurde nicht gespeichert");
+
                     }
                 }
                 if ("Start Random".equals(input) || "Start random".equals(input) || "start random".equals(input)) {
@@ -464,3 +538,4 @@ public class ConsoleApp {
 
     }
 }
+
