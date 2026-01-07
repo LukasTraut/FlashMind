@@ -10,25 +10,25 @@
     "lastlearn": "2025-12-09"
   },
 {
-"id": 7,
-"question": "Mit welchen Zeichen wird in Java ein Block eingeschlossen?",
-"answer": "Mit \\: geht jetzt doch",
-"builddate": "2025-06-08",
-"counter": 87,
-"correctcounter": 0,
-"falsecounter": 87,
-"lastlearn": "2025-12-09"
-}
-,
-{
-"id": 6,
-"question": "Welche fare hat eine Mango",
+"id": 8,
+"question": "Welche Farbe hat eine Mango?",
 "answer": "Gelb",
 "builddate": "2025-06-08",
 "counter": 14,
 "correctcounter": 0,
 "falsecounter": 14,
 "lastlearn": "2025-12-16"
+}
+,
+{
+"id": 6,
+"question": "Welche Farbe hat eine Weintraube?",
+"answer": "Grün",
+"builddate": "2025-06-08",
+"counter": 2,
+"correctcounter": 0,
+"falsecounter": 2,
+"lastlearn": "2025-11-25"
 }
 ,
 {

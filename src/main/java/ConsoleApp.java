@@ -130,6 +130,65 @@ public class ConsoleApp {
         }
     }
 
+    public static void showAll(List<Card> cards) {
+        for (int ks = 0; ks < cards.size(); ks++) {
+            Card currentCard = cards.get(ks);
+            if (!currentCard.question.equals(" ")) {
+
+                System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                        currentCard.id,
+                        currentCard.question,
+                        currentCard.buildDate.toString(),
+                        currentCard.counter,
+                        currentCard.correctCounter,
+                        currentCard.falseCounter,
+                        currentCard.lastLearn
+                );
+
+            }
+        }
+    }
+
+    public static void edit(List<Card> cards, Scanner scanner, Path flashCard, int idEdit, String newQuestion, String newAnswer) {
+
+        Card currentCard = null;
+        for (Card c : cards) {
+            if (c.id == idEdit) {
+                currentCard = c;
+                break;
+            }
+        }
+
+        System.out.println("Aktuelle Frage: " + newQuestion);
+        newQuestion = scanner.nextLine();
+
+
+        System.out.println("Aktuelle Antwort: " + newAnswer);
+        newAnswer = scanner.nextLine();
+
+
+        System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " + newAnswer);
+
+        System.out.print("Aktion (save / edit / cancel): ");
+        Scanner aprove = new Scanner(System.in);
+        String aproved = aprove.nextLine();
+        if ("save".equals(aproved) || "Save".equals(aproved)) {
+            currentCard.question = newQuestion;
+            currentCard.answer = newAnswer;
+            saveCardsToFile(flashCard, cards);
+            System.out.println("Lernkarte (ID " + idEdit + ") geändert und Datei aktualisiert.");
+
+            showAll(cards);
+        } else if ("Edit".equals(aproved) || "edit".equals(aproved)) {
+            edit(cards, scanner, flashCard, idEdit, newQuestion, newAnswer);
+        } else {
+            System.out.println("Lernkarte wurde nicht geändert");
+
+            showAll(cards);
+        }
+
+    }
+
     public static void main(String[] args) {
         boolean startRandomContinue = true;
         Scanner scanner = new Scanner(System.in);
@@ -171,13 +230,11 @@ public class ConsoleApp {
                             break;
                         }
                     }
-
-                    OptionalInt maxId = cards.stream().mapToInt(c -> c.id).max();
-                    int maxLearnId = maxId.getAsInt();
-                    if (idNumber > maxLearnId) {
-
-                        System.out.println("Diese ID gibt es nicht, die höchste ID ist " + maxLearnId);;
+                    int maxId = cards.size();
+                    if (idNumber > maxId) {
+                        System.out.printf("\u001B[31mDiese ID gibt es nicht, die höchste ID ist %d%n\u001B[0m", cards.size());
                         continue;
+
                     }
 
                     if (!currentCard.question.equals(" ")) {
@@ -254,63 +311,55 @@ public class ConsoleApp {
 
 
                             double correctPercent = 0.0; // primitive double
-                            double falsePercent   = 0.0;
+                            double falsePercent = 0.0;
 
                             if (currentCard.counter > 0) {
                                 // ACHTUNG: mind. ein double in der Rechnung, damit kein int-division!
                                 correctPercent = (currentCard.correctCounter * 100.0) / currentCard.counter;
-                                falsePercent   = (currentCard.falseCounter   * 100.0) / currentCard.counter;
+                                falsePercent = (currentCard.falseCounter * 100.0) / currentCard.counter;
 
                                 // Runden auf 1 Nachkommastelle: 1.29 -> 1.3
                                 correctPercent = Math.round(correctPercent * 10.0) / 10.0;
-                                falsePercent   = Math.round(falsePercent   * 10.0) / 10.0;
+                                falsePercent = Math.round(falsePercent * 10.0) / 10.0;
                             }
 
 
-                            System.out.printf("%-5s | %-50s | %-20s | %-15s | %15s%% | %15s%% | %-30s%n",
+                            System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
                                     currentCard.id,
                                     currentCard.question,
                                     currentCard.buildDate.toString(),
                                     currentCard.counter,
-                                    correctPercent,
-                                    falsePercent,
+                                    correctPercent + "%",
+                                    falsePercent + "%",
                                     currentCard.lastLearn
                             );
 
                         }
                     }
-                    Scanner deleteScanner = new Scanner(System.in);
-                    System.out.println("Delete zum Löschen einer Lernkarte/ Enter zum fortfahren");
-                    String delete = deleteScanner.nextLine();
-                    if ("delete".equals(delete) || "Delete".equals(delete)) {
-                        String deleteId;
+                    Scanner editScanner = new Scanner(System.in);
+                    System.out.println("Edit zum bearbeiten einer Lernkarte/ Enter zum fortfahren");
+                    String edit = editScanner.nextLine();
+
+                    if ("Edit".equals(edit) || "edit".equals(edit)) {
                         System.out.print("ID: ");
-                        deleteId = scanner.nextLine();
-                        int idDelete = Integer.parseInt(deleteId);
+                        String editId = scanner.nextLine();
+                        int idEdit = Integer.parseInt(editId);
 
-                        Scanner finalDelete = new Scanner(System.in);
-                        System.out.println("Willst du die Lernkarte wirklich löschen? Yes/ No");
-
-                        String yesOrNo = finalDelete.nextLine();
-                        if ("yes".equals(yesOrNo) || "Yes".equals(yesOrNo)) {
-
-                            boolean removed = cards.removeIf(c -> c.id == idDelete);
-
-                            if (removed) {
-                                saveCardsToFile(flashCard, cards);
-                                System.out.println("Lernkarte (ID " + idDelete + ") gelöscht und Datei aktualisiert.");
+                        Card currentCard = null;
+                        for (Card c : cards) {
+                            if (c.id == idEdit) {
+                                currentCard = c;
+                                break;
                             }
-                            else {
-                                OptionalInt maxId = cards.stream().mapToInt(c -> c.id).max();
-                                 int maxDeleteId = maxId.getAsInt();
-                                    System.out.println("Diese ID gibt es nicht, die höchste ID ist " + maxDeleteId);
                         }
-                        }else {
-                            System.out.println("Lernkarte wurde nicht gelöscht");
-                        }
+
+                        String newQuestion = currentCard.question;
+                        String newAnswer = currentCard.answer;
+                        edit(cards, scanner, flashCard, idEdit, newQuestion, newAnswer);
                     }
                 }
-                if ("open".equals(input) || "Open".equals(input)) {
+
+                if ("Open".equals(input) || "open".equals(input)) {
 
                     String number;
                     System.out.print("ID: ");
@@ -319,7 +368,7 @@ public class ConsoleApp {
                     int idNumber = Integer.parseInt(number, 10);
                     int maxId = cards.size();
                     if (idNumber > maxId) {
-                        System.out.printf("\u001B[31mDiese ID gibt es nicht, die höchste ID ist \u001B[0m", cards.size());
+                        System.out.printf("\u001B[31mDiese ID gibt es nicht, die höchste ID ist %d%n\u001B[0m", cards.size());
                         continue;
                     }
 
@@ -444,4 +493,5 @@ public class ConsoleApp {
                 }
             }
         }
-    }}
+    }
+}
