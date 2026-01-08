@@ -24,7 +24,7 @@ public class ConsoleApp {
 
     static int nextId = 0;
 
-    public class Card {
+    public static class Card {
         public int id;
         public String question;
         public String answer;
@@ -34,6 +34,7 @@ public class ConsoleApp {
         public int falseCounter;
         public LocalDate lastLearn;
 
+        public Card(){}
         public Card(String question, String answer, String dateString, int counter, int correctCounter, int falseCounter, String lastDate) {
             this.id = nextId++;
             this.question = question;
@@ -88,7 +89,7 @@ public class ConsoleApp {
                     if (key.equals("lastlearn")) lastLearn = value;
                 }
 
-                Card card = new ConsoleApp().new Card(question, answer, buildDate, counter, correctCounter, falseCounter, lastLearn);
+                Card card = new Card(question, answer, buildDate, counter, correctCounter, falseCounter, lastLearn);
                 card.id = id;
                 cards.add(card);
             }
@@ -130,6 +131,73 @@ public class ConsoleApp {
         }
     }
 
+    public static void addCard(List<Card> cards, int idAdd, String questionAdd, String answerAdd, Path flashCard, Scanner scanner) {
+        System.out.println("Bestätigen Save / Edit / Cancel");
+        Scanner save = new Scanner(System.in);
+        String saved = save.nextLine();
+
+        if ("Save".equals(saved) || "save".equals(saved)) {
+
+            for (Card c : cards) {
+                if (c.id == idAdd) {
+                    System.out.println("Diese ID ist bereits vergeben.");
+                    return;
+                }
+            }
+
+            Card newCard = new Card();
+            newCard.id = idAdd;
+            newCard.question = questionAdd;
+            newCard.answer = answerAdd;
+            newCard.buildDate = java.time.LocalDate.now();
+            newCard.counter = 0;
+            newCard.correctCounter = 0;
+            newCard.falseCounter = 0;
+            newCard.lastLearn = java.time.LocalDate.now();
+
+            cards.add(newCard);
+
+            saveCardsToFile(flashCard, cards);
+            System.out.println("Lernkarte wurde gespeichert");
+
+            System.out.println("Deine vorhandenen Karten...");
+
+            System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n", "ID", "Frage", "Erstellt am", "Counter", "Richtig gelernt", "Falsch gelernt", "Letztes mal gelernt am");
+            System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+            for (int ks = 0; ks < cards.size(); ks++) {
+                Card currentCard = cards.get(ks);
+                if (!currentCard.question.equals(" ")) {
+
+                    System.out.printf("%-5s | %-50s | %-20s | %-15s | %-15s | %-15s | %-30s%n",
+                            currentCard.id,
+                            currentCard.question,
+                            currentCard.buildDate.toString(),
+                            currentCard.counter,
+                            currentCard.correctCounter,
+                            currentCard.falseCounter,
+                            currentCard.lastLearn
+                    );
+
+                }
+            }}
+        else if ("Edit".equals(saved) || "edit".equals(saved)) {
+
+            System.out.println("Aktuelle Frage: " + questionAdd);
+            String newQuestion = scanner.nextLine();
+
+            System.out.println("Aktuelle Antwort: " + answerAdd);
+            String newAnswer = scanner.nextLine();
+
+            System.out.println("Neue Frage: " + newQuestion + " / Neue Antwort: " +  newAnswer);
+
+            addCard(cards, idAdd, newQuestion, newAnswer, flashCard, scanner);
+            }
+            else {
+                System.out.println("Lernkarte wurde nicht gespeichert");
+
+            }
+    }
     public static void showAll(List<Card> cards) {
         for (int ks = 0; ks < cards.size(); ks++) {
             Card currentCard = cards.get(ks);
@@ -202,7 +270,7 @@ public class ConsoleApp {
             int lastRandomIndex = 0;
 
             while (true) {
-                System.out.println("learn = Lernkarte lernen / start random = Zufälliges Lernen/ show all = Alle anzeigen/ open = Öffnen einer Lernkarte / exit = Programm schliessen");
+                System.out.println("learn = Lernkarte lernen / start random = Zufälliges Lernen/ add = Lernkarte hinzufügen/ show all = Alle anzeigen/ open = Öffnen einer Lernkarte / exit = Programm schliessen");
 
                 String input;
 
@@ -230,7 +298,7 @@ public class ConsoleApp {
                             break;
                         }
                     }
-                    int maxId = cards.size();
+                    int maxId = currentCard.id;
                     if (idNumber > maxId) {
                         System.out.printf("\u001B[31mDiese ID gibt es nicht, die höchste ID ist %d%n\u001B[0m", cards.size());
                         continue;
@@ -387,7 +455,24 @@ public class ConsoleApp {
                     System.out.println("Zum Schliessen eine beliebige Taste drücken und mit enter abschliessen: ");
                 }
 
+                if ("add".equals(input) || "Add".equals(input)) {
 
+                    System.out.println("Gib eine ID ein");
+                    System.out.print("> ");
+                    String idAddstring = scanner.nextLine();
+                    int idAdd = Integer.parseInt(idAddstring);
+                    System.out.println("Gib eine Frage ein");
+                    System.out.print("> ");
+                    String questionAdd = scanner.nextLine();
+                    System.out.println("Gib die Antwort ein");
+                    System.out.print("> ");
+                    String answerAdd = scanner.nextLine();
+
+                    System.out.println("Hinzugefügte Frage: " + questionAdd + " / Hinzugefügte Antwort: " + answerAdd);
+
+                    addCard(cards, idAdd, questionAdd, answerAdd, flashCard, scanner);
+
+                }
                 if ("Start Random".equals(input) || "Start random".equals(input) || "start random".equals(input)) {
 
 
