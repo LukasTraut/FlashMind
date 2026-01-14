@@ -85,5 +85,38 @@
 "falsecounter": 16,
 "lastlearn": "2025-12-09"
 }
+,
+{
+"id": 10,
+"question": "Frage1 hinzufügen",
+"answer": "geklappt",
+"builddate": "2026-01-07",
+"counter": 0,
+"correctcounter": 0,
+"falsecounter": 0,
+"lastlearn": "2026-01-07"
+}
+,
+{
+"id": 9,
+"question": "Frage2",
+"answer": "geklappt",
+"builddate": "2026-01-07",
+"counter": 0,
+"correctcounter": 0,
+"falsecounter": 0,
+"lastlearn": "2026-01-07"
+}
+,
+{
+"id": 8,
+"question": "Hats geklappt?",
+"answer": "ja",
+"builddate": "2026-01-07",
+"counter": 0,
+"correctcounter": 0,
+"falsecounter": 0,
+"lastlearn": "2026-01-07"
+}
 
 ]

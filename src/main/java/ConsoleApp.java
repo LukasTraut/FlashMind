@@ -425,6 +425,36 @@ public class ConsoleApp {
                         String newAnswer = currentCard.answer;
                         edit(cards, scanner, flashCard, idEdit, newQuestion, newAnswer);
                     }
+                    Scanner deleteScanner = new Scanner(System.in);
+                    System.out.println("Delete zum Löschen einer Lernkarte/ Enter zum fortfahren");
+                    String delete = deleteScanner.nextLine();
+                    if ("delete".equals(delete) || "Delete".equals(delete)) {
+                        String deleteId;
+                        System.out.print("ID: ");
+                        deleteId = scanner.nextLine();
+                        int idDelete = Integer.parseInt(deleteId);
+
+                        Scanner finalDelete = new Scanner(System.in);
+                        System.out.println("Willst du die Lernkarte wirklich löschen? Yes/ No");
+
+                        String yesOrNo = finalDelete.nextLine();
+                        if ("yes".equals(yesOrNo) || "Yes".equals(yesOrNo)) {
+
+                            boolean removed = cards.removeIf(c -> c.id == idDelete);
+
+                            if (removed) {
+                                saveCardsToFile(flashCard, cards);
+                                System.out.println("Lernkarte (ID " + idDelete + ") gelöscht und Datei aktualisiert.");
+                            }
+                            else {
+                                OptionalInt maxId = cards.stream().mapToInt(c -> c.id).max();
+                                int maxDeleteId = maxId.getAsInt();
+                                System.out.println("Diese ID gibt es nicht, die höchste ID ist " + maxDeleteId);
+                            }
+                        }else {
+                            System.out.println("Lernkarte wurde nicht gelöscht");
+                        }
+                    }
                 }
 
                 if ("Open".equals(input) || "open".equals(input)) {
@@ -452,7 +482,28 @@ public class ConsoleApp {
                     } else {
                         System.out.println("Karte nicht gefunden");
                     }
-                    System.out.println("Zum Schliessen eine beliebige Taste drücken und mit enter abschliessen: ");
+                    System.out.print("Zum schliessen `close` schreiben: ");
+                    String close = scanner.nextLine();
+                    if (close.equals("close") || close.equals("Close")) {
+
+                        System.out.println("Deine vorhandenen Karten...");
+                        cards.sort(Comparator.comparing(card -> card.buildDate));
+
+                        System.out.printf("%-5s | %-50s | %-95s%n", "ID", "Frage", "Erstellt am");
+                        System.out.println("------------------------------------------------------------------------");
+
+                        for (int ks = 0; ks < cards.size(); ks++) {
+                            currentCard = cards.get(ks);
+                            if (!currentCard.question.equals(" ")) {
+                                System.out.printf("%-5s | %-50s | %-95s%n",
+                                        currentCard.id,
+                                        currentCard.question,
+                                        currentCard.buildDate.toString());
+                            }
+                        }
+                    } else {
+                        System.out.println("\u001B[31mGib close zum schliessen ein(ALLES KLEIN!)\u001B[0m");
+                    }
                 }
 
                 if ("add".equals(input) || "Add".equals(input)) {
