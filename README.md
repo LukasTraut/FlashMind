@@ -1,12 +1,12 @@
-# ConsoleApp
+# FlashMindfunctions.ConsoleApp
 
-This ConsoleApp can only be closed with the command "exit", written in lowercase.
+This FlashMindfunctions.ConsoleApp can only be closed with the command "exit", written in lowercase.
 
 ## command-mode-quickstart
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+If you want to FlashMindfunctions.learn more about Quarkus, please visit its website: <https://quarkus.io/>.
 
 ## Running the application in dev mode
 
@@ -55,4 +55,4 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 
 You can then execute your native executable with: `./target/command-mode-quickstart-1.0.0-SNAPSHOT-runner`
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+If you want to FlashMindfunctions.learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
