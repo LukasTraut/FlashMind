@@ -6,7 +6,6 @@ public class Card {
 
     static int nextId = 0;
 
-    public static class Card {
         public int id;
         public String question;
         public String answer;
@@ -29,4 +28,3 @@ public class Card {
         }
     }
 
-}

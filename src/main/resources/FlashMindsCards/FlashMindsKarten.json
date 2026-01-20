@@ -1,18 +1,8 @@
 [
-  {
-    "id": 9,
-    "question": "Welche Farbe hat eine Blaubeere",
-    "answer": "Blau",
-    "builddate": "2025-06-08",
-    "counter": 87,
-    "correctcounter": 0,
-    "falsecounter": 87,
-    "lastlearn": "2025-12-09"
-  },
 {
 "id": 8,
-"question": "Welche Farbe hat eine Mango?",
-"answer": "Gelb",
+"question": "frage1",
+"answer": "11",
 "builddate": "2025-06-08",
 "counter": 14,
 "correctcounter": 0,
@@ -25,10 +15,10 @@
 "question": "Welche Farbe hat eine Weintraube?",
 "answer": "Grün",
 "builddate": "2025-06-08",
-"counter": 2,
-"correctcounter": 0,
-"falsecounter": 2,
-"lastlearn": "2025-11-25"
+"counter": 5,
+"correctcounter": 2,
+"falsecounter": 3,
+"lastlearn": "2026-01-15"
 }
 ,
 {
@@ -87,9 +77,9 @@
 }
 ,
 {
-"id": 10,
-"question": "Frage1 hinzufügen",
-"answer": "geklappt",
+"id": 8,
+"question": "Hats geklappt?",
+"answer": "ja",
 "builddate": "2026-01-07",
 "counter": 0,
 "correctcounter": 0,
@@ -100,23 +90,12 @@
 {
 "id": 9,
 "question": "Frage2",
-"answer": "geklappt",
-"builddate": "2026-01-07",
+"answer": "2",
+"builddate": "2026-01-15",
 "counter": 0,
 "correctcounter": 0,
 "falsecounter": 0,
-"lastlearn": "2026-01-07"
-}
-,
-{
-"id": 8,
-"question": "Hats geklappt?",
-"answer": "ja",
-"builddate": "2026-01-07",
-"counter": 0,
-"correctcounter": 0,
-"falsecounter": 0,
-"lastlearn": "2026-01-07"
+"lastlearn": "2026-01-15"
 }
 
 ]

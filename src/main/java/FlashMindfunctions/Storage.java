@@ -6,13 +6,13 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class Storage {
-    public static void saveCardsToFile(Path path, List<ConsoleApp.Card> cards) {
+    public static void saveCardsToFile(Path path, List<Card> cards) {
         try (FileWriter writer = new FileWriter(path.toFile())) {
             writer.write("[\n");
 
             for (int i = 0; i < cards.size(); i++) {
 
-                ConsoleApp.Card card = cards.get(i);
+                Card card = cards.get(i);
 
                 writer.write("{\n");
                 writer.write("\"id\": " + card.id + ",\n");
